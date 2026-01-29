@@ -10,6 +10,6 @@
 ---- ALTER table collection
 -------------------------------------------------------------------------------------
 
-ALTER TABLE collection DROP COLUMN workflow_step_1;
-ALTER TABLE collection DROP COLUMN workflow_step_2;
-ALTER TABLE collection DROP COLUMN workflow_step_3;
+ALTER TABLE collection DROP COLUMN IF EXISTS workflow_step_1;
+ALTER TABLE collection DROP COLUMN IF EXISTS workflow_step_2;
+ALTER TABLE collection DROP COLUMN IF EXISTS workflow_step_3;

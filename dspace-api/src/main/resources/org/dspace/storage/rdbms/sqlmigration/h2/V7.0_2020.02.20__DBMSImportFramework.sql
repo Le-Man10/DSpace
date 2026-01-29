@@ -10,7 +10,7 @@
 -- Create tables for DBMS Import framework
 -----------------------------------------------------------------------------------
 
-CREATE TABLE imp_record (
+CREATE TABLE IF NOT EXISTS imp_record (
     imp_id INTEGER PRIMARY KEY,
     imp_record_id VARCHAR(256) NOT NULL,
     imp_eperson_uuid UUID NOT NULL REFERENCES eperson(uuid),
@@ -22,7 +22,7 @@ CREATE TABLE imp_record (
     imp_sourceref VARCHAR(256)
 );
 
-CREATE TABLE imp_workflow_nstate(
+CREATE TABLE IF NOT EXISTS imp_workflow_nstate(
 	imp_wnstate_op_id INTEGER PRIMARY KEY,
 	imp_wnstate_desc VARCHAR(64),
 	imp_wnstate_op VARCHAR(64) NOT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE imp_workflow_nstate(
 	imp_wnstate_eperson_uuid UUID
 );
 
-CREATE TABLE imp_record_wstate(
+CREATE TABLE IF NOT EXISTS imp_record_wstate(
 	imp_id INTEGER NOT NULL REFERENCES imp_record(imp_id),
 	imp_wnstate_op_id INTEGER NOT NULL REFERENCES imp_workflow_nstate(imp_wnstate_op_id),
 	PRIMARY KEY (imp_id, imp_wnstate_op_id)
 );
 
-CREATE TABLE imp_metadatavalue (
+CREATE TABLE IF NOT EXISTS imp_metadatavalue (
     imp_metadatavalue_id INTEGER PRIMARY KEY,
     imp_id INTEGER NOT NULL REFERENCES imp_record(imp_id),
     imp_schema VARCHAR2(128) NOT NULL,
@@ -50,9 +50,9 @@ CREATE TABLE imp_metadatavalue (
     text_lang VARCHAR2(32)
 );
 
-CREATE INDEX imp_mv_idx_impid ON imp_metadatavalue(imp_id);
+CREATE INDEX IF NOT EXISTS imp_mv_idx_impid ON imp_metadatavalue(imp_id);
 
-CREATE TABLE imp_bitstream (
+CREATE TABLE IF NOT EXISTS imp_bitstream (
     imp_bitstream_id INTEGER PRIMARY KEY,
     imp_id INTEGER NOT NULL REFERENCES imp_record(imp_id),
     filepath VARCHAR2(512) NOT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE imp_bitstream (
     md5value VARCHAR2(32)
 );
 
-CREATE INDEX imp_bit_idx_impid ON imp_bitstream(imp_id);
+CREATE INDEX IF NOT EXISTS imp_bit_idx_impid ON imp_bitstream(imp_id);
 
-CREATE TABLE imp_bitstream_metadatavalue (
+CREATE TABLE IF NOT EXISTS imp_bitstream_metadatavalue (
     imp_bitstream_metadatavalue_id INTEGER PRIMARY KEY,
     imp_bitstream_id INTEGER NOT NULL REFERENCES imp_bitstream(imp_bitstream_id),
     imp_schema VARCHAR2(128) NOT NULL,
@@ -84,9 +84,9 @@ CREATE TABLE imp_bitstream_metadatavalue (
     text_lang VARCHAR2(32)
 );
 
-CREATE INDEX imp_bitstream_mv_idx_impid ON imp_bitstream_metadatavalue(imp_bitstream_id);
+CREATE INDEX IF NOT EXISTS imp_bitstream_mv_idx_impid ON imp_bitstream_metadatavalue(imp_bitstream_id);
 
-CREATE TABLE imp_record_to_item (
+CREATE TABLE IF NOT EXISTS imp_record_to_item (
     imp_record_id VARCHAR(256) PRIMARY KEY,
     imp_item_id UUID NOT NULL,
     imp_sourceref VARCHAR(256)

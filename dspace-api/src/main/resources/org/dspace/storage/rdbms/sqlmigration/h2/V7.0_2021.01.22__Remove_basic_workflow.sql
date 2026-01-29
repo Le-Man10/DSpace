@@ -10,8 +10,8 @@
 -- Drop the 'workflowitem' and 'tasklistitem' tables
 -----------------------------------------------------------------------------------
 
-DROP TABLE workflowitem CASCADE CONSTRAINTS;
-DROP TABLE tasklistitem CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS workflowitem CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS tasklistitem CASCADE CONSTRAINTS;
 
-DROP SEQUENCE workflowitem_seq;
-DROP SEQUENCE tasklistitem_seq;
+DROP SEQUENCE IF EXISTS workflowitem_seq;
+DROP SEQUENCE IF EXISTS tasklistitem_seq;

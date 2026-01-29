@@ -17,7 +17,7 @@
 -------------------------------------------
 -- New column for bitstream order DS-749 --
 -------------------------------------------
-ALTER TABLE bundle2bitstream ADD COLUMN bitstream_order INTEGER;
+ALTER TABLE bundle2bitstream ADD COLUMN IF NOT EXISTS bitstream_order INTEGER;
 
 --Place the sequence id's in the order
 UPDATE bundle2bitstream SET bitstream_order=(SELECT sequence_id FROM bitstream WHERE bitstream.bitstream_id=bundle2bitstream.bitstream_id);

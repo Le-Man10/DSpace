@@ -19,4 +19,4 @@ FROM nbevent_processed as nb WHERE NOT EXISTS(
 -- Drop nbevent_processed table
 -- --
 DELETE FROM nbevent_processed;
-DROP TABLE nbevent_processed;
+DROP TABLE IF EXISTS nbevent_processed;

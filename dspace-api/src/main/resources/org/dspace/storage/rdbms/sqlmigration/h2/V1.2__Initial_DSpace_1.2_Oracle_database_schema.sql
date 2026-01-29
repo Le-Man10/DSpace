@@ -14,44 +14,44 @@
 -- http://flywaydb.org/
 -- ===============================================================
 
-CREATE SEQUENCE bitstreamformatregistry_seq;
-CREATE SEQUENCE fileextension_seq;
-CREATE SEQUENCE bitstream_seq;
-CREATE SEQUENCE eperson_seq;
+CREATE SEQUENCE IF NOT EXISTS bitstreamformatregistry_seq;
+CREATE SEQUENCE IF NOT EXISTS fileextension_seq;
+CREATE SEQUENCE IF NOT EXISTS bitstream_seq;
+CREATE SEQUENCE IF NOT EXISTS eperson_seq;
 -- start group sequence at 0, since Anonymous group = 0
-CREATE SEQUENCE epersongroup_seq MINVALUE 0 START WITH 0;
-CREATE SEQUENCE item_seq;
-CREATE SEQUENCE bundle_seq;
-CREATE SEQUENCE item2bundle_seq;
-CREATE SEQUENCE bundle2bitstream_seq;
-CREATE SEQUENCE dctyperegistry_seq;
-CREATE SEQUENCE dcvalue_seq;
-CREATE SEQUENCE community_seq;
-CREATE SEQUENCE collection_seq;
-CREATE SEQUENCE community2community_seq;
-CREATE SEQUENCE community2collection_seq;
-CREATE SEQUENCE collection2item_seq;
-CREATE SEQUENCE resourcepolicy_seq;
-CREATE SEQUENCE epersongroup2eperson_seq;
-CREATE SEQUENCE handle_seq;
-CREATE SEQUENCE workspaceitem_seq;
-CREATE SEQUENCE workflowitem_seq;
-CREATE SEQUENCE tasklistitem_seq;
-CREATE SEQUENCE registrationdata_seq;
-CREATE SEQUENCE subscription_seq;
-CREATE SEQUENCE history_seq;
-CREATE SEQUENCE historystate_seq;
-CREATE SEQUENCE communities2item_seq;
-CREATE SEQUENCE itemsbyauthor_seq;
-CREATE SEQUENCE itemsbytitle_seq;
-CREATE SEQUENCE itemsbydate_seq;
-CREATE SEQUENCE itemsbydateaccessioned_seq;
+CREATE SEQUENCE IF NOT EXISTS epersongroup_seq MINVALUE 0 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS item_seq;
+CREATE SEQUENCE IF NOT EXISTS bundle_seq;
+CREATE SEQUENCE IF NOT EXISTS item2bundle_seq;
+CREATE SEQUENCE IF NOT EXISTS bundle2bitstream_seq;
+CREATE SEQUENCE IF NOT EXISTS dctyperegistry_seq;
+CREATE SEQUENCE IF NOT EXISTS dcvalue_seq;
+CREATE SEQUENCE IF NOT EXISTS community_seq;
+CREATE SEQUENCE IF NOT EXISTS collection_seq;
+CREATE SEQUENCE IF NOT EXISTS community2community_seq;
+CREATE SEQUENCE IF NOT EXISTS community2collection_seq;
+CREATE SEQUENCE IF NOT EXISTS collection2item_seq;
+CREATE SEQUENCE IF NOT EXISTS resourcepolicy_seq;
+CREATE SEQUENCE IF NOT EXISTS epersongroup2eperson_seq;
+CREATE SEQUENCE IF NOT EXISTS handle_seq;
+CREATE SEQUENCE IF NOT EXISTS workspaceitem_seq;
+CREATE SEQUENCE IF NOT EXISTS workflowitem_seq;
+CREATE SEQUENCE IF NOT EXISTS tasklistitem_seq;
+CREATE SEQUENCE IF NOT EXISTS registrationdata_seq;
+CREATE SEQUENCE IF NOT EXISTS subscription_seq;
+CREATE SEQUENCE IF NOT EXISTS history_seq;
+CREATE SEQUENCE IF NOT EXISTS historystate_seq;
+CREATE SEQUENCE IF NOT EXISTS communities2item_seq;
+CREATE SEQUENCE IF NOT EXISTS itemsbyauthor_seq;
+CREATE SEQUENCE IF NOT EXISTS itemsbytitle_seq;
+CREATE SEQUENCE IF NOT EXISTS itemsbydate_seq;
+CREATE SEQUENCE IF NOT EXISTS itemsbydateaccessioned_seq;
 
 
 -------------------------------------------------------
 -- BitstreamFormatRegistry table
 -------------------------------------------------------
-CREATE TABLE BitstreamFormatRegistry
+CREATE TABLE IF NOT EXISTS BitstreamFormatRegistry
 (
   bitstream_format_id INTEGER PRIMARY KEY,
   mimetype            VARCHAR2(48),
@@ -65,7 +65,7 @@ CREATE TABLE BitstreamFormatRegistry
 -------------------------------------------------------
 -- FileExtension table
 -------------------------------------------------------
-CREATE TABLE FileExtension
+CREATE TABLE IF NOT EXISTS FileExtension
 (
   file_extension_id    INTEGER PRIMARY KEY,
   bitstream_format_id  INTEGER REFERENCES BitstreamFormatRegistry(bitstream_format_id),
@@ -75,7 +75,7 @@ CREATE TABLE FileExtension
 -------------------------------------------------------
 -- Bitstream table
 -------------------------------------------------------
-CREATE TABLE Bitstream
+CREATE TABLE IF NOT EXISTS Bitstream
 (
    bitstream_id            INTEGER PRIMARY KEY,
    bitstream_format_id     INTEGER REFERENCES BitstreamFormatRegistry(bitstream_format_id),
@@ -95,7 +95,7 @@ CREATE TABLE Bitstream
 -------------------------------------------------------
 -- EPerson table
 -------------------------------------------------------
-CREATE TABLE EPerson
+CREATE TABLE IF NOT EXISTS EPerson
 (
   eperson_id          INTEGER PRIMARY KEY,
   email               VARCHAR2(64) UNIQUE,
@@ -111,12 +111,12 @@ CREATE TABLE EPerson
 );
 
 -- index by email
-CREATE INDEX eperson_email_idx ON EPerson(email);
+CREATE INDEX IF NOT EXISTS eperson_email_idx ON EPerson(email);
 
 -------------------------------------------------------
 -- EPersonGroup table
 -------------------------------------------------------
-CREATE TABLE EPersonGroup
+CREATE TABLE IF NOT EXISTS EPersonGroup
 (
   eperson_group_id INTEGER PRIMARY KEY,
   name             VARCHAR2(256) UNIQUE
@@ -125,7 +125,7 @@ CREATE TABLE EPersonGroup
 -------------------------------------------------------
 -- Item table
 -------------------------------------------------------
-CREATE TABLE Item
+CREATE TABLE IF NOT EXISTS Item
 (
   item_id         INTEGER PRIMARY KEY,
   submitter_id    INTEGER REFERENCES EPerson(eperson_id),
@@ -138,7 +138,7 @@ CREATE TABLE Item
 -------------------------------------------------------
 -- Bundle table
 -------------------------------------------------------
-CREATE TABLE Bundle
+CREATE TABLE IF NOT EXISTS Bundle
 (
   bundle_id          INTEGER PRIMARY KEY,
   mets_bitstream_id  INTEGER REFERENCES Bitstream(bitstream_id),
@@ -149,7 +149,7 @@ CREATE TABLE Bundle
 -------------------------------------------------------
 -- Item2Bundle table
 -------------------------------------------------------
-CREATE TABLE Item2Bundle
+CREATE TABLE IF NOT EXISTS Item2Bundle
 (
   id        INTEGER PRIMARY KEY,
   item_id   INTEGER REFERENCES Item(item_id),
@@ -157,12 +157,12 @@ CREATE TABLE Item2Bundle
 );
 
 -- index by item_id
-CREATE INDEX item2bundle_item_idx on Item2Bundle(item_id);
+CREATE INDEX IF NOT EXISTS item2bundle_item_idx on Item2Bundle(item_id);
 
 -------------------------------------------------------
 -- Bundle2Bitstream table
 -------------------------------------------------------
-CREATE TABLE Bundle2Bitstream
+CREATE TABLE IF NOT EXISTS Bundle2Bitstream
 (
   id           INTEGER PRIMARY KEY,
   bundle_id    INTEGER REFERENCES Bundle(bundle_id),
@@ -170,12 +170,12 @@ CREATE TABLE Bundle2Bitstream
 );
 
 -- index by bundle_id
-CREATE INDEX bundle2bitstream_bundle_idx ON Bundle2Bitstream(bundle_id);
+CREATE INDEX IF NOT EXISTS bundle2bitstream_bundle_idx ON Bundle2Bitstream(bundle_id);
 
 -------------------------------------------------------
 -- DCTypeRegistry table
 -------------------------------------------------------
-CREATE TABLE DCTypeRegistry
+CREATE TABLE IF NOT EXISTS DCTypeRegistry
 (
   dc_type_id INTEGER PRIMARY KEY,
   element    VARCHAR2(64),
@@ -187,7 +187,7 @@ CREATE TABLE DCTypeRegistry
 -------------------------------------------------------
 -- DCValue table
 -------------------------------------------------------
-CREATE TABLE DCValue
+CREATE TABLE IF NOT EXISTS DCValue
 (
   dc_value_id   INTEGER PRIMARY KEY,
   item_id       INTEGER REFERENCES Item(item_id),
@@ -201,12 +201,12 @@ CREATE TABLE DCValue
 -- An index for item_id - almost all access is based on
 -- instantiating the item object, which grabs all dcvalues
 -- related to that item
-CREATE INDEX dcvalue_item_idx on DCValue(item_id);
+CREATE INDEX IF NOT EXISTS dcvalue_item_idx on DCValue(item_id);
 
 -------------------------------------------------------
 -- Community table
 -------------------------------------------------------
-CREATE TABLE Community
+CREATE TABLE IF NOT EXISTS Community
 (
   community_id      INTEGER PRIMARY KEY,
   name              VARCHAR2(128) UNIQUE,
@@ -220,7 +220,7 @@ CREATE TABLE Community
 -------------------------------------------------------
 -- Collection table
 -------------------------------------------------------
-CREATE TABLE Collection
+CREATE TABLE IF NOT EXISTS Collection
 (
   collection_id     INTEGER PRIMARY KEY,
   name              VARCHAR2(128),
@@ -240,7 +240,7 @@ CREATE TABLE Collection
 -------------------------------------------------------
 -- Community2Community table
 -------------------------------------------------------
-CREATE TABLE Community2Community
+CREATE TABLE IF NOT EXISTS Community2Community
 (
   id             INTEGER PRIMARY KEY,
   parent_comm_id INTEGER REFERENCES Community(community_id),
@@ -250,7 +250,7 @@ CREATE TABLE Community2Community
 -------------------------------------------------------
 -- Community2Collection table
 -------------------------------------------------------
-CREATE TABLE Community2Collection
+CREATE TABLE IF NOT EXISTS Community2Collection
 (
   id             INTEGER PRIMARY KEY,
   community_id   INTEGER REFERENCES Community(community_id),
@@ -260,7 +260,7 @@ CREATE TABLE Community2Collection
 -------------------------------------------------------
 -- Collection2Item table
 -------------------------------------------------------
-CREATE TABLE Collection2Item
+CREATE TABLE IF NOT EXISTS Collection2Item
 (
   id            INTEGER PRIMARY KEY,
   collection_id INTEGER REFERENCES Collection(collection_id),
@@ -268,12 +268,12 @@ CREATE TABLE Collection2Item
 );
 
 -- index by collection_id
-CREATE INDEX collection2item_collection_idx ON Collection2Item(collection_id);
+CREATE INDEX IF NOT EXISTS collection2item_collection_idx ON Collection2Item(collection_id);
 
 -------------------------------------------------------
 -- ResourcePolicy table
 -------------------------------------------------------
-CREATE TABLE ResourcePolicy
+CREATE TABLE IF NOT EXISTS ResourcePolicy
 (
   policy_id            INTEGER PRIMARY KEY,
   resource_type_id     INTEGER,
@@ -287,12 +287,12 @@ CREATE TABLE ResourcePolicy
 
 -- index by resource_type,resource_id - all queries by
 -- authorization manager are select type=x, id=y, action=z
-CREATE INDEX resourcepolicy_type_id_idx ON ResourcePolicy(resource_type_id,resource_id); 
+CREATE INDEX IF NOT EXISTS resourcepolicy_type_id_idx ON ResourcePolicy(resource_type_id,resource_id); 
 
 -------------------------------------------------------
 -- EPersonGroup2EPerson table
 -------------------------------------------------------
-CREATE TABLE EPersonGroup2EPerson
+CREATE TABLE IF NOT EXISTS EPersonGroup2EPerson
 (
   id               INTEGER PRIMARY KEY,
   eperson_group_id INTEGER REFERENCES EPersonGroup(eperson_group_id),
@@ -300,13 +300,13 @@ CREATE TABLE EPersonGroup2EPerson
 );
 
 -- Index by group ID (used heavily by AuthorizeManager)
-CREATE INDEX epersongroup2eperson_group_idx on EPersonGroup2EPerson(eperson_group_id);
+CREATE INDEX IF NOT EXISTS epersongroup2eperson_group_idx on EPersonGroup2EPerson(eperson_group_id);
 
 
 -------------------------------------------------------
 -- Handle table
 -------------------------------------------------------
-CREATE TABLE Handle
+CREATE TABLE IF NOT EXISTS Handle
 (
   handle_id        INTEGER PRIMARY KEY,
   handle           VARCHAR2(256) UNIQUE,
@@ -315,12 +315,12 @@ CREATE TABLE Handle
 );
 
 -- index by handle, commonly looked up
-CREATE INDEX handle_handle_idx ON Handle(handle);
+CREATE INDEX IF NOT EXISTS handle_handle_idx ON Handle(handle);
 
 -------------------------------------------------------
 --  WorkspaceItem table
 -------------------------------------------------------
-CREATE TABLE WorkspaceItem
+CREATE TABLE IF NOT EXISTS WorkspaceItem
 (
   workspace_item_id INTEGER PRIMARY KEY,
   item_id           INTEGER REFERENCES Item(item_id),
@@ -336,7 +336,7 @@ CREATE TABLE WorkspaceItem
 -------------------------------------------------------
 --  WorkflowItem table
 -------------------------------------------------------
-CREATE TABLE WorkflowItem
+CREATE TABLE IF NOT EXISTS WorkflowItem
 (
   workflow_id    INTEGER PRIMARY KEY,
   item_id        INTEGER UNIQUE REFERENCES Item(item_id),
@@ -356,7 +356,7 @@ CREATE TABLE WorkflowItem
 -------------------------------------------------------
 --  TasklistItem table
 -------------------------------------------------------
-CREATE TABLE TasklistItem
+CREATE TABLE IF NOT EXISTS TasklistItem
 (
   tasklist_id	INTEGER PRIMARY KEY,
   eperson_id	INTEGER REFERENCES EPerson(eperson_id),
@@ -367,7 +367,7 @@ CREATE TABLE TasklistItem
 -------------------------------------------------------
 --  RegistrationData table
 -------------------------------------------------------
-CREATE TABLE RegistrationData
+CREATE TABLE IF NOT EXISTS RegistrationData
 (
   registrationdata_id   INTEGER PRIMARY KEY,
   email                 VARCHAR2(64) UNIQUE,
@@ -379,7 +379,7 @@ CREATE TABLE RegistrationData
 -------------------------------------------------------
 --  Subscription table
 -------------------------------------------------------
-CREATE TABLE Subscription
+CREATE TABLE IF NOT EXISTS Subscription
 (
   subscription_id   INTEGER PRIMARY KEY,
   eperson_id        INTEGER REFERENCES EPerson(eperson_id),
@@ -390,7 +390,7 @@ CREATE TABLE Subscription
 -------------------------------------------------------
 --  History table
 -------------------------------------------------------
-CREATE TABLE History
+CREATE TABLE IF NOT EXISTS History
 (
   history_id           INTEGER PRIMARY KEY,
   -- When it was stored
@@ -402,7 +402,7 @@ CREATE TABLE History
 -------------------------------------------------------
 --  HistoryState table
 -------------------------------------------------------
-CREATE TABLE HistoryState
+CREATE TABLE IF NOT EXISTS HistoryState
 (
   history_state_id           INTEGER PRIMARY KEY,
   object_id                  VARCHAR2(64)
@@ -415,7 +415,7 @@ CREATE TABLE HistoryState
 -------------------------------------------------------
 --  Communities2Item table
 -------------------------------------------------------
-CREATE TABLE Communities2Item
+CREATE TABLE IF NOT EXISTS Communities2Item
 (
    id                      INTEGER PRIMARY KEY,
    community_id            INTEGER REFERENCES Community(community_id),
@@ -425,7 +425,7 @@ CREATE TABLE Communities2Item
 -------------------------------------------------------
 -- Community2Item view
 ------------------------------------------------------
-CREATE VIEW Community2Item as
+CREATE VIEW IF NOT EXISTS Community2Item as
 SELECT Community2Collection.community_id, Collection2Item.item_id 
 FROM Community2Collection, Collection2Item
 WHERE Collection2Item.collection_id   = Community2Collection.collection_id
@@ -434,7 +434,7 @@ WHERE Collection2Item.collection_id   = Community2Collection.collection_id
 -------------------------------------------------------
 --  ItemsByAuthor table
 -------------------------------------------------------
-CREATE TABLE ItemsByAuthor
+CREATE TABLE IF NOT EXISTS ItemsByAuthor
 (
    items_by_author_id INTEGER PRIMARY KEY,
    item_id            INTEGER REFERENCES Item(item_id),
@@ -443,12 +443,12 @@ CREATE TABLE ItemsByAuthor
 );
 
 -- index by sort_author, of course!
-CREATE INDEX sort_author_idx on ItemsByAuthor(sort_author);
+CREATE INDEX IF NOT EXISTS sort_author_idx on ItemsByAuthor(sort_author);
 
 -------------------------------------------------------
 --  CollectionItemsByAuthor view
 -------------------------------------------------------
-CREATE VIEW CollectionItemsByAuthor as
+CREATE VIEW IF NOT EXISTS CollectionItemsByAuthor as
 SELECT Collection2Item.collection_id, ItemsByAuthor.* 
 FROM ItemsByAuthor, Collection2Item
 WHERE ItemsByAuthor.item_id = Collection2Item.item_id
@@ -457,7 +457,7 @@ WHERE ItemsByAuthor.item_id = Collection2Item.item_id
 -------------------------------------------------------
 --  CommunityItemsByAuthor view
 -------------------------------------------------------
-CREATE VIEW CommunityItemsByAuthor as
+CREATE VIEW IF NOT EXISTS CommunityItemsByAuthor as
 SELECT Communities2Item.community_id, ItemsByAuthor.* 
 FROM ItemsByAuthor, Communities2Item
 WHERE ItemsByAuthor.item_id = Communities2Item.item_id
@@ -466,7 +466,7 @@ WHERE ItemsByAuthor.item_id = Communities2Item.item_id
 ----------------------------------------
 -- ItemsByTitle table
 ----------------------------------------
-CREATE TABLE ItemsByTitle
+CREATE TABLE IF NOT EXISTS ItemsByTitle
 (
    items_by_title_id  INTEGER PRIMARY KEY,
    item_id            INTEGER REFERENCES Item(item_id),
@@ -475,13 +475,13 @@ CREATE TABLE ItemsByTitle
 );
 
 -- index by the sort_title
-CREATE INDEX sort_title_idx on ItemsByTitle(sort_title);
+CREATE INDEX IF NOT EXISTS sort_title_idx on ItemsByTitle(sort_title);
 
 
 -------------------------------------------------------
 --  CollectionItemsByTitle view
 -------------------------------------------------------
-CREATE VIEW CollectionItemsByTitle as
+CREATE VIEW IF NOT EXISTS CollectionItemsByTitle as
 SELECT Collection2Item.collection_id, ItemsByTitle.* 
 FROM ItemsByTitle, Collection2Item
 WHERE ItemsByTitle.item_id = Collection2Item.item_id
@@ -490,7 +490,7 @@ WHERE ItemsByTitle.item_id = Collection2Item.item_id
 -------------------------------------------------------
 --  CommunityItemsByTitle view
 -------------------------------------------------------
-CREATE VIEW CommunityItemsByTitle as
+CREATE VIEW IF NOT EXISTS CommunityItemsByTitle as
 SELECT Communities2Item.community_id, ItemsByTitle.* 
 FROM ItemsByTitle, Communities2Item
 WHERE ItemsByTitle.item_id = Communities2Item.item_id
@@ -499,7 +499,7 @@ WHERE ItemsByTitle.item_id = Communities2Item.item_id
 -------------------------------------------------------
 --  ItemsByDate table
 -------------------------------------------------------
-CREATE TABLE ItemsByDate
+CREATE TABLE IF NOT EXISTS ItemsByDate
 (
    items_by_date_id   INTEGER PRIMARY KEY,
    item_id            INTEGER REFERENCES Item(item_id),
@@ -507,12 +507,12 @@ CREATE TABLE ItemsByDate
 );
 
 -- sort by date
-CREATE INDEX date_issued_idx on ItemsByDate(date_issued);
+CREATE INDEX IF NOT EXISTS date_issued_idx on ItemsByDate(date_issued);
 
 -------------------------------------------------------
 --  CollectionItemsByDate view
 -------------------------------------------------------
-CREATE VIEW CollectionItemsByDate as
+CREATE VIEW IF NOT EXISTS CollectionItemsByDate as
 SELECT Collection2Item.collection_id, ItemsByDate.* 
 FROM ItemsByDate, Collection2Item
 WHERE ItemsByDate.item_id = Collection2Item.item_id
@@ -521,7 +521,7 @@ WHERE ItemsByDate.item_id = Collection2Item.item_id
 -------------------------------------------------------
 --  CommunityItemsByDate view
 -------------------------------------------------------
-CREATE VIEW CommunityItemsByDate as
+CREATE VIEW IF NOT EXISTS CommunityItemsByDate as
 SELECT Communities2Item.community_id, ItemsByDate.* 
 FROM ItemsByDate, Communities2Item
 WHERE ItemsByDate.item_id = Communities2Item.item_id
@@ -530,7 +530,7 @@ WHERE ItemsByDate.item_id = Communities2Item.item_id
 -------------------------------------------------------
 --  ItemsByDateAccessioned table
 -------------------------------------------------------
-CREATE TABLE ItemsByDateAccessioned
+CREATE TABLE IF NOT EXISTS ItemsByDateAccessioned
 (
    items_by_date_accessioned_id  INTEGER PRIMARY KEY,
    item_id                       INTEGER REFERENCES Item(item_id),
@@ -540,7 +540,7 @@ CREATE TABLE ItemsByDateAccessioned
 -------------------------------------------------------
 --  CollectionItemsByDateAccession view
 -------------------------------------------------------
-CREATE VIEW CollectionItemsByDateAccession as
+CREATE VIEW IF NOT EXISTS CollectionItemsByDateAccession as
 SELECT Collection2Item.collection_id, ItemsByDateAccessioned.* 
 FROM ItemsByDateAccessioned, Collection2Item
 WHERE ItemsByDateAccessioned.item_id = Collection2Item.item_id
@@ -549,7 +549,7 @@ WHERE ItemsByDateAccessioned.item_id = Collection2Item.item_id
 -------------------------------------------------------
 --  CommunityItemsByDateAccession view
 -------------------------------------------------------
-CREATE VIEW CommunityItemsByDateAccession as
+CREATE VIEW IF NOT EXISTS CommunityItemsByDateAccession as
 SELECT Communities2Item.community_id, ItemsByDateAccessioned.* 
 FROM ItemsByDateAccessioned, Communities2Item
 WHERE ItemsByDateAccessioned.item_id = Communities2Item.item_id

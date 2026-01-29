@@ -17,13 +17,13 @@
 -------------------------------------------------------------------------------
 -- Sequences for Group within Group feature
 -------------------------------------------------------------------------------
-CREATE SEQUENCE group2group_seq;
-CREATE SEQUENCE group2groupcache_seq;
+CREATE SEQUENCE IF NOT EXISTS group2group_seq;
+CREATE SEQUENCE IF NOT EXISTS group2groupcache_seq;
 
 ------------------------------------------------------
 -- Group2Group table, records group membership in other groups
 ------------------------------------------------------
-CREATE TABLE Group2Group
+CREATE TABLE IF NOT EXISTS Group2Group
 (
   id        INTEGER PRIMARY KEY,
   parent_id INTEGER REFERENCES EPersonGroup(eperson_group_id),
@@ -39,7 +39,7 @@ CREATE TABLE Group2Group
 -- AND parent(A,C) so that all of the child groups of A can be
 -- looked up in a single simple query
 ------------------------------------------------------
-CREATE TABLE Group2GroupCache
+CREATE TABLE IF NOT EXISTS Group2GroupCache
 (
   id        INTEGER PRIMARY KEY,
   parent_id INTEGER REFERENCES EPersonGroup(eperson_group_id),
@@ -50,12 +50,12 @@ CREATE TABLE Group2GroupCache
 -------------------------------------------------------
 -- New Metadata Tables and Sequences
 -------------------------------------------------------
-CREATE SEQUENCE metadataschemaregistry_seq;
-CREATE SEQUENCE metadatafieldregistry_seq;
-CREATE SEQUENCE metadatavalue_seq;
+CREATE SEQUENCE IF NOT EXISTS metadataschemaregistry_seq;
+CREATE SEQUENCE IF NOT EXISTS metadatafieldregistry_seq;
+CREATE SEQUENCE IF NOT EXISTS metadatavalue_seq;
 
 -- MetadataSchemaRegistry table
-CREATE TABLE MetadataSchemaRegistry
+CREATE TABLE IF NOT EXISTS MetadataSchemaRegistry
 (
   metadata_schema_id INTEGER PRIMARY KEY DEFAULT NEXTVAL('metadataschemaregistry_seq'),
   namespace          VARCHAR(256) UNIQUE,
@@ -63,7 +63,7 @@ CREATE TABLE MetadataSchemaRegistry
 );
 
 -- MetadataFieldRegistry table
-CREATE TABLE MetadataFieldRegistry
+CREATE TABLE IF NOT EXISTS MetadataFieldRegistry
 (
   metadata_field_id   INTEGER PRIMARY KEY DEFAULT NEXTVAL('metadatafieldregistry_seq'),
   metadata_schema_id  INTEGER NOT NULL REFERENCES MetadataSchemaRegistry(metadata_schema_id),
@@ -73,7 +73,7 @@ CREATE TABLE MetadataFieldRegistry
 );
 
 -- MetadataValue table
-CREATE TABLE MetadataValue
+CREATE TABLE IF NOT EXISTS MetadataValue
 (
   metadata_value_id  INTEGER PRIMARY KEY DEFAULT NEXTVAL('metadatavalue_seq'),
   item_id            INTEGER REFERENCES Item(item_id),
@@ -84,9 +84,9 @@ CREATE TABLE MetadataValue
 );
 
 -- Create the Metadata table indexes
-CREATE INDEX metadatavalue_item_idx ON MetadataValue(item_id);
-CREATE INDEX metadatavalue_item_idx2 ON MetadataValue(item_id,metadata_field_id);
-CREATE INDEX metadatafield_schema_idx ON MetadataFieldRegistry(metadata_schema_id);
+CREATE INDEX IF NOT EXISTS metadatavalue_item_idx ON MetadataValue(item_id);
+CREATE INDEX IF NOT EXISTS metadatavalue_item_idx2 ON MetadataValue(item_id,metadata_field_id);
+CREATE INDEX IF NOT EXISTS metadatafield_schema_idx ON MetadataFieldRegistry(metadata_schema_id);
 
 -- Create the DC schema
 INSERT INTO MetadataSchemaRegistry VALUES (1,'http://dublincore.org/documents/dcmi-terms/','dc');
@@ -101,8 +101,8 @@ INSERT INTO MetadataFieldRegistry
 INSERT INTO MetadataValue (item_id, metadata_field_id, text_value, text_lang, place)
   SELECT item_id, dc_type_id, text_value, text_lang, place FROM dcvalue;
   
-DROP TABLE dcvalue;
-CREATE VIEW dcvalue AS
+DROP TABLE IF EXISTS dcvalue;
+CREATE VIEW IF NOT EXISTS dcvalue AS
   SELECT MetadataValue.metadata_value_id AS "dc_value_id", MetadataValue.item_id, 
     MetadataValue.metadata_field_id AS "dc_type_id", MetadataValue.text_value, 
     MetadataValue.text_lang, MetadataValue.place  
@@ -116,15 +116,15 @@ SELECT setval('metadatavalue_seq', max(metadata_value_id)) FROM metadatavalue;
 SELECT setval('metadataschemaregistry_seq', max(metadata_schema_id)) FROM metadataschemaregistry;
 
 -- Drop the old dctyperegistry
-DROP TABLE dctyperegistry;
+DROP TABLE IF EXISTS dctyperegistry;
 
 ------------------------------------------------------
 -- Bitstream table -- increase capacity of file size
 -- column, and bring in line with Oracle schema
 ------------------------------------------------------
-ALTER TABLE bitstream ADD COLUMN size_bytes BIGINT;
+ALTER TABLE bitstream ADD COLUMN IF NOT EXISTS size_bytes BIGINT;
 UPDATE bitstream SET size_bytes = size;
-ALTER TABLE bitstream DROP COLUMN size;
+ALTER TABLE bitstream DROP COLUMN IF EXISTS size;
 
 -------------------------------------------------------
 -- Create the checksum checker tables
@@ -132,7 +132,7 @@ ALTER TABLE bitstream DROP COLUMN size;
 -- list of the possible results as determined
 -- by the system or an administrator
 
-CREATE TABLE checksum_results
+CREATE TABLE IF NOT EXISTS checksum_results
 (
     result_code VARCHAR PRIMARY KEY,
     result_description VARCHAR
@@ -145,7 +145,7 @@ CREATE TABLE checksum_results
 -- that row will be updated every time the checksum is
 -- re-calculated.
 
-CREATE TABLE most_recent_checksum 
+CREATE TABLE IF NOT EXISTS most_recent_checksum 
 (
     bitstream_id INTEGER PRIMARY KEY REFERENCES bitstream(bitstream_id),
     to_be_processed BOOLEAN NOT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE most_recent_checksum
 -- A row will be inserted into this table every
 -- time a checksum is re-calculated.
 
-CREATE TABLE checksum_history 
+CREATE TABLE IF NOT EXISTS checksum_history 
 (
     check_id BIGSERIAL PRIMARY KEY,  
     bitstream_id INTEGER,
@@ -304,12 +304,12 @@ set result = 'INVALID_HISTORY';
 -------------------------------------------------------
 -- Table and views for 'browse by subject' functionality
 -------------------------------------------------------
-CREATE SEQUENCE itemsbysubject_seq;
+CREATE SEQUENCE IF NOT EXISTS itemsbysubject_seq;
 
 -------------------------------------------------------
 --  ItemsBySubject table
 -------------------------------------------------------
-CREATE TABLE ItemsBySubject
+CREATE TABLE IF NOT EXISTS ItemsBySubject
 (
    items_by_subject_id INTEGER PRIMARY KEY,
    item_id             INTEGER REFERENCES Item(item_id),
@@ -318,12 +318,12 @@ CREATE TABLE ItemsBySubject
 );
 
 -- index by sort_subject
-CREATE INDEX sort_subject_idx on ItemsBySubject(sort_subject);
+CREATE INDEX IF NOT EXISTS sort_subject_idx on ItemsBySubject(sort_subject);
 
 -------------------------------------------------------
 --  CollectionItemsBySubject view
 -------------------------------------------------------
-CREATE VIEW CollectionItemsBySubject as
+CREATE VIEW IF NOT EXISTS CollectionItemsBySubject as
 SELECT Collection2Item.collection_id, ItemsBySubject.* 
 FROM ItemsBySubject, Collection2Item
 WHERE ItemsBySubject.item_id = Collection2Item.item_id
@@ -332,7 +332,7 @@ WHERE ItemsBySubject.item_id = Collection2Item.item_id
 -------------------------------------------------------
 --  CommunityItemsBySubject view
 -------------------------------------------------------
-CREATE VIEW CommunityItemsBySubject as
+CREATE VIEW IF NOT EXISTS CommunityItemsBySubject as
 SELECT Communities2Item.community_id, ItemsBySubject.* 
 FROM ItemsBySubject, Communities2Item
 WHERE ItemsBySubject.item_id = Communities2Item.item_id

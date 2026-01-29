@@ -18,4 +18,4 @@ USING dedup
 WHERE workspaceitem.item_id = dedup.item_id AND workspaceitem.workspace_item_id <> dedup.workspace_item_id;
 
 -- Enforce uniqueness of item_id in workspaceitem table.
-ALTER TABLE workspaceitem ADD CONSTRAINT unique_item_id UNIQUE(item_id);
+ALTER TABLE workspaceitem DROP CONSTRAINT IF EXISTS unique_item_id; ALTER TABLE workspaceitem ADD CONSTRAINT unique_item_id UNIQUE(item_id);

@@ -10,7 +10,7 @@
 ---- UPDATE table cris_metrics
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_metrics DROP CONSTRAINT cris_metrics_resource_id_fkey;
+ALTER TABLE cris_metrics DROP CONSTRAINT IF EXISTS cris_metrics_resource_id_fkey;
 
-ALTER TABLE cris_metrics ADD CONSTRAINT cris_metric_resource_id_fkey FOREIGN KEY (resource_id) REFERENCES dspaceobject (uuid);
+ALTER TABLE cris_metrics DROP CONSTRAINT IF EXISTS cris_metric_resource_id_fkey; ALTER TABLE cris_metrics ADD CONSTRAINT cris_metric_resource_id_fkey FOREIGN KEY (resource_id) REFERENCES dspaceobject (uuid);
 

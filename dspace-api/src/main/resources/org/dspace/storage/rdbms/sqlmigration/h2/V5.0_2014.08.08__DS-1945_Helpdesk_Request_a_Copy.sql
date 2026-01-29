@@ -17,4 +17,4 @@
 ------------------------------------------------------
 -- DS-1945 RequestItem Helpdesk, store request message
 ------------------------------------------------------
-ALTER TABLE requestitem ADD COLUMN request_message VARCHAR2(2000);
+ALTER TABLE requestitem ADD COLUMN IF NOT EXISTS request_message VARCHAR2(2000);

@@ -21,7 +21,7 @@
 -- org.dspace.storage.rdbms.migration.V5_0_2014_09_25__DS_1582_Metadata_For_All_Objects_drop_constraint
 ------------------------------------------------------
 
-alter table metadatavalue add column resource_type_id integer;
+alter table metadatavalue add column IF NOT EXISTS resource_type_id integer;
 UPDATE metadatavalue SET resource_type_id = 2;
 alter table metadatavalue alter column resource_type_id set not null;
 
@@ -89,11 +89,11 @@ null AS text_lang,
 0 AS place
 FROM community where not name is null;
 
-alter table community drop column introductory_text;
-alter table community drop column short_description;
-alter table community drop column side_bar_text;
-alter table community drop column copyright_text;
-alter table community drop column name;
+alter table community drop column IF EXISTS introductory_text;
+alter table community drop column IF EXISTS short_description;
+alter table community drop column IF EXISTS side_bar_text;
+alter table community drop column IF EXISTS copyright_text;
+alter table community drop column IF EXISTS name;
 
 
 -- ----------
@@ -179,13 +179,13 @@ null AS text_lang,
 0 AS place
 FROM collection where not license is null;
 
-alter table collection drop column introductory_text;
-alter table collection drop column short_description;
-alter table collection drop column copyright_text;
-alter table collection drop column side_bar_text;
-alter table collection drop column name;
-alter table collection drop column license;
-alter table collection drop column provenance_description;
+alter table collection drop column IF EXISTS introductory_text;
+alter table collection drop column IF EXISTS short_description;
+alter table collection drop column IF EXISTS copyright_text;
+alter table collection drop column IF EXISTS side_bar_text;
+alter table collection drop column IF EXISTS name;
+alter table collection drop column IF EXISTS license;
+alter table collection drop column IF EXISTS provenance_description;
 
 
 -- ---------
@@ -203,7 +203,7 @@ null AS text_lang,
 0 AS place
 FROM bundle where not name is null;
 
-alter table bundle drop column name;
+alter table bundle drop column IF EXISTS name;
 
 
 
@@ -256,10 +256,10 @@ null AS text_lang,
 0 AS place
 FROM bitstream where not source is null;
 
-alter table bitstream drop column name;
-alter table bitstream drop column description;
-alter table bitstream drop column user_format_description;
-alter table bitstream drop column source;
+alter table bitstream drop column IF EXISTS name;
+alter table bitstream drop column IF EXISTS description;
+alter table bitstream drop column IF EXISTS user_format_description;
+alter table bitstream drop column IF EXISTS source;
 
 
 
@@ -278,7 +278,7 @@ null AS text_lang,
 0 AS place
 FROM epersongroup where not name is null;
 
-alter table epersongroup drop column name;
+alter table epersongroup drop column IF EXISTS name;
 
 
 
@@ -330,18 +330,18 @@ null AS text_lang,
 0 AS place
 FROM eperson where not language is null;
 
-alter table eperson drop column firstname;
-alter table eperson drop column lastname;
-alter table eperson drop column phone;
-alter table eperson drop column language;
+alter table eperson drop column IF EXISTS firstname;
+alter table eperson drop column IF EXISTS lastname;
+alter table eperson drop column IF EXISTS phone;
+alter table eperson drop column IF EXISTS language;
 
 -- ---------
 -- dcvalue view
 -- ---------
 
-drop view dcvalue;
+drop view IF EXISTS dcvalue;
 
-CREATE VIEW dcvalue AS
+CREATE VIEW IF NOT EXISTS dcvalue AS
   SELECT MetadataValue.metadata_value_id AS "dc_value_id", MetadataValue.resource_id,
     MetadataValue.metadata_field_id AS "dc_type_id", MetadataValue.text_value,
     MetadataValue.text_lang, MetadataValue.place

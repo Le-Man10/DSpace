@@ -17,4 +17,4 @@
 ------------------------------------------------------------------
 -- Remove unused / obsolete sequence 'dctyperegistry_seq' (DS-729)
 ------------------------------------------------------------------
-DROP SEQUENCE dctyperegistry_seq;
+DROP SEQUENCE IF EXISTS dctyperegistry_seq;

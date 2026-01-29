@@ -17,17 +17,17 @@
 -------------------------------------------------------------
 -- This will create the setup for the dspace 7 entities usage
 -------------------------------------------------------------
-CREATE SEQUENCE entity_type_id_seq;
-CREATE SEQUENCE relationship_type_id_seq;
-CREATE SEQUENCE relationship_id_seq;
+CREATE SEQUENCE IF NOT EXISTS entity_type_id_seq;
+CREATE SEQUENCE IF NOT EXISTS relationship_type_id_seq;
+CREATE SEQUENCE IF NOT EXISTS relationship_id_seq;
 
-CREATE TABLE entity_type
+CREATE TABLE IF NOT EXISTS entity_type
 (
     id                      INTEGER NOT NULL PRIMARY KEY,
     label                   varchar(32) UNIQUE NOT NULL
 );
 
-CREATE TABLE relationship_type
+CREATE TABLE IF NOT EXISTS relationship_type
 (
     id                        INTEGER NOT NULL PRIMARY KEY,
     left_type                 INTEGER NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE relationship_type
 
 );
 
-CREATE TABLE relationship
+CREATE TABLE IF NOT EXISTS relationship
 (
     id                      INTEGER NOT NULL PRIMARY KEY,
     left_id                 uuid NOT NULL REFERENCES item(uuid),
@@ -56,10 +56,10 @@ CREATE TABLE relationship
 
 );
 
-CREATE INDEX entity_type_label_idx ON entity_type(label);
-CREATE INDEX relationship_type_by_left_type_idx ON relationship_type(left_type);
-CREATE INDEX relationship_type_by_right_type_idx ON relationship_type(right_type);
-CREATE INDEX relationship_type_by_left_label_idx ON relationship_type(left_label);
-CREATE INDEX relationship_type_by_right_label_idx ON relationship_type(right_label);
-CREATE INDEX relationship_by_left_id_idx ON relationship(left_id);
-CREATE INDEX relationship_by_right_id_idx ON relationship(right_id);
+CREATE INDEX IF NOT EXISTS entity_type_label_idx ON entity_type(label);
+CREATE INDEX IF NOT EXISTS relationship_type_by_left_type_idx ON relationship_type(left_type);
+CREATE INDEX IF NOT EXISTS relationship_type_by_right_type_idx ON relationship_type(right_type);
+CREATE INDEX IF NOT EXISTS relationship_type_by_left_label_idx ON relationship_type(left_label);
+CREATE INDEX IF NOT EXISTS relationship_type_by_right_label_idx ON relationship_type(right_label);
+CREATE INDEX IF NOT EXISTS relationship_by_left_id_idx ON relationship(left_id);
+CREATE INDEX IF NOT EXISTS relationship_by_right_id_idx ON relationship(right_id);

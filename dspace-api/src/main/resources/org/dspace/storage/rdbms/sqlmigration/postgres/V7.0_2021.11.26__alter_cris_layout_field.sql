@@ -10,14 +10,14 @@
 ---- ALTER table cris_layout_field
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_field DROP COLUMN style;
-ALTER TABLE cris_layout_field ADD COLUMN row_style CHARACTER VARYING(255);
-ALTER TABLE cris_layout_field ADD COLUMN cell_style CHARACTER VARYING(255);
-ALTER TABLE cris_layout_field ADD COLUMN cell INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE cris_layout_field DROP COLUMN IF EXISTS style;
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS row_style CHARACTER VARYING(255);
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS cell_style CHARACTER VARYING(255);
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS cell INTEGER NOT NULL DEFAULT 0;
 
 -------------------------------------------------------------------------------------
 ---- ALTER table cris_layout_field2nested
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_field2nested DROP COLUMN label_as_heading;
-ALTER TABLE cris_layout_field2nested DROP COLUMN values_inline;
+ALTER TABLE cris_layout_field2nested DROP COLUMN IF EXISTS label_as_heading;
+ALTER TABLE cris_layout_field2nested DROP COLUMN IF EXISTS values_inline;

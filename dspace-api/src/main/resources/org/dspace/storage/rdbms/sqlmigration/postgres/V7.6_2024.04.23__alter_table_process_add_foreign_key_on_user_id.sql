@@ -21,4 +21,4 @@ where not exists(
 );
 
 -- Add the foreign key constraint with ON DELETE SET NULL
-ALTER TABLE process ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES eperson (uuid) ON DELETE SET NULL;
+ALTER TABLE process DROP CONSTRAINT IF EXISTS user_id; ALTER TABLE process ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES eperson (uuid) ON DELETE SET NULL;

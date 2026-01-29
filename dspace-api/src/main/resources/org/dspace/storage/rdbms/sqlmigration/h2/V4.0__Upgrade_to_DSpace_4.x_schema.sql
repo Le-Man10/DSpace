@@ -23,7 +23,7 @@ update item set discoverable=1 WHERE discoverable IS NULL;
 -- Add support for DOIs (table and seq.) --
 -------------------------------------------
 
-CREATE TABLE Doi
+CREATE TABLE IF NOT EXISTS Doi
 (
   doi_id           INTEGER PRIMARY KEY,
   doi              VARCHAR2(256) UNIQUE,
@@ -32,16 +32,16 @@ CREATE TABLE Doi
   status           INTEGER
 );
 
-CREATE SEQUENCE doi_seq;
+CREATE SEQUENCE IF NOT EXISTS doi_seq;
 
 -- index by resource id and resource type id
-CREATE INDEX doi_resource_id_type_idx ON doi(resource_id, resource_type_id);
+CREATE INDEX IF NOT EXISTS doi_resource_id_type_idx ON doi(resource_id, resource_type_id);
 
 -------------------------------------------
 -- Table of running web applications for 'dspace version' --
 -------------------------------------------
 
-CREATE TABLE Webapp
+CREATE TABLE IF NOT EXISTS Webapp
 (
     webapp_id INTEGER NOT NULL PRIMARY KEY,
     AppName VARCHAR2(32),
@@ -50,13 +50,13 @@ CREATE TABLE Webapp
     isUI INTEGER
 );
 
-CREATE SEQUENCE webapp_seq;
+CREATE SEQUENCE IF NOT EXISTS webapp_seq;
 
 -------------------------------------------------------
 -- DS-824 RequestItem table
 -------------------------------------------------------
 
-CREATE TABLE requestitem
+CREATE TABLE IF NOT EXISTS requestitem
 (
   requestitem_id INTEGER NOT NULL,
   token varchar(48),
@@ -73,7 +73,7 @@ CREATE TABLE requestitem
   CONSTRAINT requestitem_token_key UNIQUE (token)
 );
 
-CREATE SEQUENCE requestitem_seq;
+CREATE SEQUENCE IF NOT EXISTS requestitem_seq;
 
 -------------------------------------------------------
 -- DS-1655 Disable "Initial Questions" page in Submission UI by default

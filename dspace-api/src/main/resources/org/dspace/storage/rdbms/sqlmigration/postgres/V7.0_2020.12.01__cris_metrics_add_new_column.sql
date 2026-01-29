@@ -10,8 +10,8 @@
 -- Update table CrisMetrics
 -----------------------------------------------------------------------------------
 
-ALTER TABLE cris_metrics ADD COLUMN deltaPeriod1 FLOAT;
+ALTER TABLE cris_metrics ADD COLUMN IF NOT EXISTS deltaPeriod1 FLOAT;
 
-ALTER TABLE cris_metrics ADD COLUMN deltaPeriod2 FLOAT;
+ALTER TABLE cris_metrics ADD COLUMN IF NOT EXISTS deltaPeriod2 FLOAT;
 
-ALTER TABLE cris_metrics ADD COLUMN rank FLOAT;
+ALTER TABLE cris_metrics ADD COLUMN IF NOT EXISTS rank FLOAT;

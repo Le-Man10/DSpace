@@ -13,9 +13,9 @@
 -- AUTOMATICALLY (IF NEEDED) BY "FLYWAY" WHEN YOU STARTUP DSPACE.
 -- http://flywaydb.org/
 -- ===============================================================
-CREATE SEQUENCE process_id_seq;
+CREATE SEQUENCE IF NOT EXISTS process_id_seq;
 
-CREATE TABLE process
+CREATE TABLE IF NOT EXISTS process
 (
     process_id              INTEGER NOT NULL PRIMARY KEY,
     user_id                 UUID NOT NULL,
@@ -27,14 +27,14 @@ CREATE TABLE process
     parameters              VARCHAR(512)
 );
 
-CREATE TABLE process2bitstream
+CREATE TABLE IF NOT EXISTS process2bitstream
 (
   process_id   INTEGER REFERENCES process(process_id),
   bitstream_id UUID REFERENCES bitstream(uuid),
   CONSTRAINT PK_process2bitstream PRIMARY KEY (process_id, bitstream_id)
 );
 
-CREATE INDEX process_user_id_idx ON process(user_id);
-CREATE INDEX process_status_idx ON process(status);
-CREATE INDEX process_name_idx on process(script);
-CREATE INDEX process_start_time_idx on process(start_time);
+CREATE INDEX IF NOT EXISTS process_user_id_idx ON process(user_id);
+CREATE INDEX IF NOT EXISTS process_status_idx ON process(status);
+CREATE INDEX IF NOT EXISTS process_name_idx on process(script);
+CREATE INDEX IF NOT EXISTS process_start_time_idx on process(start_time);

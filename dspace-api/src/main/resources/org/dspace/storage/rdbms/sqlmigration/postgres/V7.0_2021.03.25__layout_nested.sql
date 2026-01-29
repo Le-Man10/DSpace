@@ -10,8 +10,8 @@
 -- Sequences for RegistrationData within Group feature
 -------------------------------------------------------------------------------
 
-CREATE SEQUENCE cris_layout_field_nested_id_seq;
-CREATE TABLE  cris_layout_field2nested
+CREATE SEQUENCE IF NOT EXISTS cris_layout_field_nested_id_seq;
+CREATE TABLE IF NOT EXISTS cris_layout_field2nested
 (
   nested_field_id    INTEGER NOT NULL,
   rendering           CHARACTER VARYING(255),

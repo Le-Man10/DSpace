@@ -10,11 +10,11 @@
 -- Table to store supervision orders
 -------------------------------------------------------------------------------
 
-CREATE TABLE supervision_orders
+CREATE TABLE IF NOT EXISTS supervision_orders
 (
   id INTEGER PRIMARY KEY,
   item_id UUID REFERENCES Item(uuid) ON DELETE CASCADE,
   eperson_group_id UUID REFERENCES epersongroup(uuid) ON DELETE CASCADE
 );
 
-CREATE SEQUENCE supervision_orders_seq;
+CREATE SEQUENCE IF NOT EXISTS supervision_orders_seq;

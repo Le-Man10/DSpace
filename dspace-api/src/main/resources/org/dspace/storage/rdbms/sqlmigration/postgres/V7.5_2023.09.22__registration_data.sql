@@ -15,7 +15,7 @@ DO $$
 	if exists (select constraint_name
                from information_schema.constraint_column_usage
                where TABLE_SCHEMA = 'public' AND TABLE_NAME = 'registrationdata' AND COLUMN_NAME = 'email') then
-        EXECUTE 'ALTER TABLE registrationdata DROP CONSTRAINT ' ||
+        EXECUTE 'ALTER TABLE registrationdata DROP CONSTRAINT IF EXISTS ' ||
             QUOTE_IDENT((
                 SELECT CONSTRAINT_NAME
                 FROM information_schema.key_column_usage
@@ -41,7 +41,7 @@ DO $$
        IF NOT EXISTS (SELECT FROM pg_catalog.pg_tables
                   WHERE  schemaname = 'public'
                   AND    tablename  = 'registrationdata_metadata') THEN
-            CREATE TABLE registrationdata_metadata (
+            CREATE TABLE IF NOT EXISTS registrationdata_metadata (
               registrationdata_metadata_id INTEGER NOT NULL,
               registrationdata_id INTEGER,
               metadata_field_id INTEGER,
@@ -49,14 +49,10 @@ DO $$
               CONSTRAINT pk_registrationdata_metadata PRIMARY KEY (registrationdata_metadata_id)
             );
 
-            ALTER TABLE registrationdata_metadata
-            ADD CONSTRAINT FK_REGISTRATIONDATA_METADATA_ON_METADATA_FIELD
-                FOREIGN KEY (metadata_field_id)
+            ALTER TABLE registrationdata_metadata DROP CONSTRAINT IF EXISTS FK_REGISTRATIONDATA_METADATA_ON_METADATA_FIELD; ALTER TABLE registrationdata_metadata ADD CONSTRAINT FK_REGISTRATIONDATA_METADATA_ON_METADATA_FIELD FOREIGN KEY (metadata_field_id)
                 REFERENCES metadatafieldregistry (metadata_field_id) ON DELETE CASCADE;
 
-            ALTER TABLE registrationdata_metadata
-            ADD CONSTRAINT FK_REGISTRATIONDATA_METADATA_ON_REGISTRATIONDATA
-                FOREIGN KEY (registrationdata_id)
+            ALTER TABLE registrationdata_metadata DROP CONSTRAINT IF EXISTS FK_REGISTRATIONDATA_METADATA_ON_REGISTRATIONDATA; ALTER TABLE registrationdata_metadata ADD CONSTRAINT FK_REGISTRATIONDATA_METADATA_ON_REGISTRATIONDATA FOREIGN KEY (registrationdata_id)
                 REFERENCES registrationdata (registrationdata_id) ON DELETE CASCADE;
 
        END IF;

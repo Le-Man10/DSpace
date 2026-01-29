@@ -18,4 +18,4 @@ DELETE FROM workspaceitem WHERE EXISTS (
     GROUP BY item_id
 );
 -- Identify which rows have duplicates, and compute their replacements.
-ALTER TABLE workspaceitem ADD CONSTRAINT unique_item_id UNIQUE(item_id);
+ALTER TABLE workspaceitem DROP CONSTRAINT IF EXISTS unique_item_id; ALTER TABLE workspaceitem ADD CONSTRAINT unique_item_id UNIQUE(item_id);

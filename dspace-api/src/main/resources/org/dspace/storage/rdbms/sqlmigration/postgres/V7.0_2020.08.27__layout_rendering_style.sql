@@ -6,6 +6,6 @@
 -- http://www.dspace.org/license/
 --
 
-ALTER TABLE cris_layout_field ADD COLUMN style_label VARCHAR(255);
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS style_label VARCHAR(255);
 
-ALTER TABLE cris_layout_field ADD COLUMN style_value VARCHAR(255);
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS style_value VARCHAR(255);

@@ -10,7 +10,7 @@
 -- Sequences for Process within Group feature
 -------------------------------------------------------------------------------
 
-CREATE TABLE Process2Group
+CREATE TABLE IF NOT EXISTS Process2Group
 (
   process_id INTEGER REFERENCES Process(process_id),
   group_id UUID REFERENCES epersongroup (uuid) ON DELETE CASCADE

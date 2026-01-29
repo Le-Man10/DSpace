@@ -7,12 +7,12 @@
 --
 
 -----------------------------------------------------------------------------------
--- Create table for CrisMetrics
+-- Create table IF NOT EXISTS for CrisMetrics
 -----------------------------------------------------------------------------------
 
-CREATE SEQUENCE cris_metrics_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_metrics_seq;
 
-CREATE TABLE cris_metrics
+CREATE TABLE IF NOT EXISTS cris_metrics
 (
     id INTEGER NOT NULL,
     metricType CHARACTER VARYING(255),
@@ -27,11 +27,11 @@ CREATE TABLE cris_metrics
     CONSTRAINT cris_metrics_resource_id_fkey FOREIGN KEY (resource_id) REFERENCES item (uuid)
 );
 
-CREATE INDEX metrics_last_idx
+CREATE INDEX IF NOT EXISTS metrics_last_idx
 ON public.cris_metrics (last);
 
-CREATE INDEX metrics_uuid_idx
+CREATE INDEX IF NOT EXISTS metrics_uuid_idx
 ON public.cris_metrics (resource_id);
   
-CREATE INDEX metric_bid_idx
+CREATE INDEX IF NOT EXISTS metric_bid_idx
 ON public.cris_metrics (resource_id, metricType);

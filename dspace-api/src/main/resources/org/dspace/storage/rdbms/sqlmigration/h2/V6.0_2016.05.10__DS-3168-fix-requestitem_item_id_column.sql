@@ -12,13 +12,13 @@
 -- convert the item_id and bitstream_id columns from integer to UUID
 ---------------------------------------------------------------
 ALTER TABLE requestitem ALTER COLUMN item_id rename to item_legacy_id;
-ALTER TABLE requestitem ADD COLUMN item_id UUID;
-ALTER TABLE requestitem ADD CONSTRAINT requestitem_item_id_fk FOREIGN KEY (item_id) REFERENCES Item;
+ALTER TABLE requestitem ADD COLUMN IF NOT EXISTS item_id UUID;
+ALTER TABLE requestitem DROP CONSTRAINT IF EXISTS requestitem_item_id_fk; ALTER TABLE requestitem ADD CONSTRAINT requestitem_item_id_fk FOREIGN KEY (item_id) REFERENCES Item;
 UPDATE requestitem SET item_id = (SELECT item.uuid FROM item WHERE requestitem.item_legacy_id = item.item_id);
-ALTER TABLE requestitem DROP COLUMN item_legacy_id;
+ALTER TABLE requestitem DROP COLUMN IF EXISTS item_legacy_id;
 
 ALTER TABLE requestitem ALTER COLUMN bitstream_id rename to bitstream_legacy_id;
-ALTER TABLE requestitem ADD COLUMN bitstream_id UUID;
-ALTER TABLE requestitem ADD CONSTRAINT requestitem_id_fk FOREIGN KEY (bitstream_id) REFERENCES Bitstream;
+ALTER TABLE requestitem ADD COLUMN IF NOT EXISTS bitstream_id UUID;
+ALTER TABLE requestitem DROP CONSTRAINT IF EXISTS requestitem_id_fk; ALTER TABLE requestitem ADD CONSTRAINT requestitem_id_fk FOREIGN KEY (bitstream_id) REFERENCES Bitstream;
 UPDATE requestitem SET bitstream_id = (SELECT Bitstream.uuid FROM Bitstream WHERE requestitem.bitstream_legacy_id = Bitstream.bitstream_id);
-ALTER TABLE requestitem DROP COLUMN bitstream_legacy_id;
+ALTER TABLE requestitem DROP COLUMN IF EXISTS bitstream_legacy_id;

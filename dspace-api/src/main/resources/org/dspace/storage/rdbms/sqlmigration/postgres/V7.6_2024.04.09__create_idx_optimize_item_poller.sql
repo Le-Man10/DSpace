@@ -10,5 +10,5 @@
 -- Create INDEXES to optimize exact query over the metadatavalue
 -----------------------------------------------------------------------------------
 
-CREATE INDEX idx_text_value_hash ON metadatavalue (substring(text_value,1,36));
-CREATE INDEX idx_authority_hash ON metadatavalue (authority);
+CREATE INDEX IF NOT EXISTS idx_text_value_hash ON metadatavalue (substring(text_value,1,36));
+CREATE INDEX IF NOT EXISTS idx_authority_hash ON metadatavalue (authority);

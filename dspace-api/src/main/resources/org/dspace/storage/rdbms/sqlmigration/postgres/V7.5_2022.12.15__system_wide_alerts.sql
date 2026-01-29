@@ -7,12 +7,12 @@
 --
 
 -----------------------------------------------------------------------------------
--- Create table for System wide alerts
+-- Create table IF NOT EXISTS for System wide alerts
 -----------------------------------------------------------------------------------
 
-CREATE SEQUENCE alert_id_seq;
+CREATE SEQUENCE IF NOT EXISTS alert_id_seq;
 
-CREATE TABLE systemwidealert
+CREATE TABLE IF NOT EXISTS systemwidealert
 (
     alert_id        INTEGER NOT NULL PRIMARY KEY,
     message         VARCHAR(512),

@@ -13,7 +13,7 @@
 
 CREATE SEQUENCE if NOT EXISTS notifyservice_id_seq;
 
-CREATE TABLE notifyservice (
+CREATE TABLE IF NOT EXISTS notifyservice (
     id INTEGER PRIMARY KEY,
     name VARCHAR(255),
     description TEXT,
@@ -32,7 +32,7 @@ CREATE TABLE notifyservice (
 
 CREATE SEQUENCE if NOT EXISTS notifyservice_inbound_pattern_id_seq;
 
-CREATE TABLE notifyservice_inbound_pattern (
+CREATE TABLE IF NOT EXISTS notifyservice_inbound_pattern (
     id INTEGER PRIMARY KEY,
     service_id INTEGER REFERENCES notifyservice(id) ON DELETE CASCADE,
     pattern VARCHAR(255),
@@ -40,14 +40,14 @@ CREATE TABLE notifyservice_inbound_pattern (
     automatic BOOLEAN
 );
 
-CREATE INDEX notifyservice_inbound_idx ON notifyservice_inbound_pattern (service_id);
+CREATE INDEX IF NOT EXISTS notifyservice_inbound_idx ON notifyservice_inbound_pattern (service_id);
 
 
 -------------------------------------------------------------------------------
 -- Table to store LDN messages
 -------------------------------------------------------------------------------
 
-CREATE TABLE ldn_message
+CREATE TABLE IF NOT EXISTS ldn_message
 (
   id VARCHAR(255) PRIMARY KEY,
   object uuid,
@@ -78,7 +78,7 @@ CREATE TABLE ldn_message
 
 CREATE SEQUENCE if NOT EXISTS notifypatterns_to_trigger_id_seq;
 
-CREATE TABLE notifypatterns_to_trigger
+CREATE TABLE IF NOT EXISTS notifypatterns_to_trigger
 (
   id INTEGER PRIMARY KEY,
   item_id UUID REFERENCES Item(uuid) ON DELETE CASCADE,
@@ -86,5 +86,5 @@ CREATE TABLE notifypatterns_to_trigger
   pattern VARCHAR(255)
 );
 
-CREATE INDEX notifypatterns_to_trigger_item_idx ON notifypatterns_to_trigger (item_id);
-CREATE INDEX notifypatterns_to_trigger_service_idx ON notifypatterns_to_trigger (service_id);
+CREATE INDEX IF NOT EXISTS notifypatterns_to_trigger_item_idx ON notifypatterns_to_trigger (item_id);
+CREATE INDEX IF NOT EXISTS notifypatterns_to_trigger_service_idx ON notifypatterns_to_trigger (service_id);

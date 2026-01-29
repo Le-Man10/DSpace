@@ -6,4 +6,4 @@
 -- http://www.dspace.org/license/
 --
 
-ALTER TABLE orcid_queue ADD COLUMN attempts INTEGER;
+ALTER TABLE orcid_queue ADD COLUMN IF NOT EXISTS attempts INTEGER;

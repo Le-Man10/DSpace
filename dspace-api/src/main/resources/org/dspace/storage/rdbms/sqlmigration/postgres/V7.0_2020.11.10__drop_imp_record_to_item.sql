@@ -10,4 +10,4 @@
 -- Drop imp_record_to_item table.
 -----------------------------------------------------------------------------------
 
-DROP TABLE imp_record_to_item;
+DROP TABLE IF EXISTS imp_record_to_item;

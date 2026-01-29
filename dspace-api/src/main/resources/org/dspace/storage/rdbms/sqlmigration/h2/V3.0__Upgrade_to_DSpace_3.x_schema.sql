@@ -14,19 +14,19 @@
 -- http://flywaydb.org/
 -- ===============================================================
 
-ALTER TABLE resourcepolicy ADD COLUMN rpname VARCHAR2(30);
-ALTER TABLE resourcepolicy ADD COLUMN rptype VARCHAR2(30);
-ALTER TABLE resourcepolicy ADD COLUMN rpdescription VARCHAR2(100);
+ALTER TABLE resourcepolicy ADD COLUMN IF NOT EXISTS rpname VARCHAR2(30);
+ALTER TABLE resourcepolicy ADD COLUMN IF NOT EXISTS rptype VARCHAR2(30);
+ALTER TABLE resourcepolicy ADD COLUMN IF NOT EXISTS rpdescription VARCHAR2(100);
 
 
-ALTER TABLE item ADD COLUMN discoverable BOOLEAN;
+ALTER TABLE item ADD COLUMN IF NOT EXISTS discoverable BOOLEAN;
 
-CREATE TABLE versionhistory
+CREATE TABLE IF NOT EXISTS versionhistory
 (
   versionhistory_id INTEGER NOT NULL PRIMARY KEY
 );
 
-CREATE TABLE versionitem
+CREATE TABLE IF NOT EXISTS versionitem
 (
   versionitem_id INTEGER NOT NULL PRIMARY KEY,
   item_id INTEGER REFERENCES Item(item_id),
@@ -37,13 +37,13 @@ CREATE TABLE versionitem
   versionhistory_id INTEGER REFERENCES VersionHistory(versionhistory_id)
 );
 
-CREATE SEQUENCE versionitem_seq;
-CREATE SEQUENCE versionhistory_seq;
+CREATE SEQUENCE IF NOT EXISTS versionitem_seq;
+CREATE SEQUENCE IF NOT EXISTS versionhistory_seq;
 
 
 -------------------------------------------
 -- New columns and longer hash for salted password hashing DS-861 --
 -------------------------------------------
 ALTER TABLE EPerson ALTER COLUMN password VARCHAR(128);
-ALTER TABLE EPerson ADD COLUMN salt VARCHAR(32);
-ALTER TABLE EPerson ADD COLUMN digest_algorithm VARCHAR(16);
+ALTER TABLE EPerson ADD COLUMN IF NOT EXISTS salt VARCHAR(32);
+ALTER TABLE EPerson ADD COLUMN IF NOT EXISTS digest_algorithm VARCHAR(16);

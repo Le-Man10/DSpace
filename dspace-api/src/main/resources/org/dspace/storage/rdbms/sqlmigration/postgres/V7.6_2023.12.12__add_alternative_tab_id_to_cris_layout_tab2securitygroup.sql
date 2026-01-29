@@ -10,5 +10,5 @@
 -- Alter TABLE cris_layout_tab2securitygroup ADD alternative_tab_id
 -----------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_tab2securitygroup ADD COLUMN alternative_tab_id INTEGER;
-ALTER TABLE cris_layout_tab2securitygroup ADD CONSTRAINT cris_layout_tab2securitygroup_tab_id2 FOREIGN KEY (alternative_tab_id) REFERENCES cris_layout_tab (id) ON DELETE SET NULL;
+ALTER TABLE cris_layout_tab2securitygroup ADD COLUMN IF NOT EXISTS alternative_tab_id INTEGER;
+ALTER TABLE cris_layout_tab2securitygroup DROP CONSTRAINT IF EXISTS cris_layout_tab2securitygroup_tab_id2; ALTER TABLE cris_layout_tab2securitygroup ADD CONSTRAINT cris_layout_tab2securitygroup_tab_id2 FOREIGN KEY (alternative_tab_id) REFERENCES cris_layout_tab (id) ON DELETE SET NULL;

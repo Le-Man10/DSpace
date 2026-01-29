@@ -11,7 +11,7 @@
 ------------------------------------------------------
 
 ALTER TABLE epersongroup
-      ADD COLUMN permanent BOOLEAN DEFAULT false;
+      ADD COLUMN IF NOT EXISTS permanent BOOLEAN DEFAULT false;
 UPDATE epersongroup SET permanent = true
        WHERE uuid IN (
          SELECT dspace_object_id

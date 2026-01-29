@@ -18,9 +18,9 @@
 -- Add support for DOIs (table and seq.) --
 -------------------------------------------
 
-CREATE SEQUENCE doi_seq;
+CREATE SEQUENCE IF NOT EXISTS doi_seq;
 
-CREATE TABLE Doi
+CREATE TABLE IF NOT EXISTS Doi
 (
   doi_id           INTEGER PRIMARY KEY,
   doi              VARCHAR(256) UNIQUE,
@@ -30,17 +30,17 @@ CREATE TABLE Doi
 );
 
 -- index by handle, commonly looked up
-CREATE INDEX doi_doi_idx ON Doi(doi);
+CREATE INDEX IF NOT EXISTS doi_doi_idx ON Doi(doi);
 -- index by resource id and resource type id
-CREATE INDEX doi_resource_id_and_type_idx ON Doi(resource_id, resource_type_id);
+CREATE INDEX IF NOT EXISTS doi_resource_id_and_type_idx ON Doi(resource_id, resource_type_id);
 
 -------------------------------------------
 -- DS-1456 table of currently running webapps
 -------------------------------------------
 
-CREATE SEQUENCE webapp_seq;
+CREATE SEQUENCE IF NOT EXISTS webapp_seq;
 
-CREATE TABLE Webapp
+CREATE TABLE IF NOT EXISTS Webapp
 (
     webapp_id INTEGER NOT NULL PRIMARY KEY,
     AppName VARCHAR(32),
@@ -54,9 +54,9 @@ CREATE TABLE Webapp
 -- DS-824 RequestItem table
 -------------------------------------------------------
 
-CREATE SEQUENCE requestitem_seq;
+CREATE SEQUENCE IF NOT EXISTS requestitem_seq;
 
-CREATE TABLE requestitem
+CREATE TABLE IF NOT EXISTS requestitem
 (
   requestitem_id int4 NOT NULL,
   token varchar(48),

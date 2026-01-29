@@ -6,4 +6,4 @@
 -- http://www.dspace.org/license/
 --
 
-ALTER TABLE cris_layout_box DROP CONSTRAINT cris_layout_box_entity_shortname_unique;
+ALTER TABLE cris_layout_box DROP CONSTRAINT IF EXISTS cris_layout_box_entity_shortname_unique;

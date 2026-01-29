@@ -18,9 +18,9 @@
 -- This will create the setup for the IRUS statistics harvester
 -------------------------------------------------------------
 
-CREATE SEQUENCE openurltracker_seq;
+CREATE SEQUENCE IF NOT EXISTS openurltracker_seq;
 
-CREATE TABLE openurltracker
+CREATE TABLE IF NOT EXISTS openurltracker
 (
     tracker_id INTEGER,
     tracker_url VARCHAR(1000),

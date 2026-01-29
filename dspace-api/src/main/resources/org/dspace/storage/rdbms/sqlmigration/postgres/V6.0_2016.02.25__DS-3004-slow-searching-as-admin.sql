@@ -19,7 +19,7 @@ ALTER TABLE epersongroup
 DROP COLUMN IF EXISTS name;
 
 ALTER TABLE epersongroup
-ADD COLUMN name VARCHAR(250);
+ADD COLUMN IF NOT EXISTS name VARCHAR(250);
 
 CREATE UNIQUE INDEX epersongroup_unique_idx_name on epersongroup(name);
 

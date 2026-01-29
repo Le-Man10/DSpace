@@ -18,7 +18,7 @@
 -- Update MetadataValue to include CLOB
 ---------------------------------------
 
-CREATE TABLE MetadataValueTemp
+CREATE TABLE IF NOT EXISTS MetadataValueTemp
 (
   metadata_value_id  INTEGER PRIMARY KEY,
   item_id       INTEGER REFERENCES Item(item_id),
@@ -31,11 +31,11 @@ CREATE TABLE MetadataValueTemp
 INSERT INTO MetadataValueTemp
 SELECT * FROM MetadataValue;
 
-DROP VIEW dcvalue;
-DROP TABLE MetadataValue;
+DROP VIEW IF EXISTS dcvalue;
+DROP TABLE IF EXISTS MetadataValue;
 ALTER TABLE MetadataValueTemp RENAME TO MetadataValue;
 
-CREATE VIEW dcvalue AS
+CREATE VIEW IF NOT EXISTS dcvalue AS
   SELECT MetadataValue.metadata_value_id AS "dc_value_id", MetadataValue.item_id,
     MetadataValue.metadata_field_id AS "dc_type_id", MetadataValue.text_value,
     MetadataValue.text_lang, MetadataValue.place
@@ -43,14 +43,14 @@ CREATE VIEW dcvalue AS
   WHERE MetadataValue.metadata_field_id = MetadataFieldRegistry.metadata_field_id
   AND MetadataFieldRegistry.metadata_schema_id = 1;
 
-CREATE INDEX metadatavalue_item_idx ON MetadataValue(item_id);
-CREATE INDEX metadatavalue_item_idx2 ON MetadataValue(item_id,metadata_field_id);
+CREATE INDEX IF NOT EXISTS metadatavalue_item_idx ON MetadataValue(item_id);
+CREATE INDEX IF NOT EXISTS metadatavalue_item_idx2 ON MetadataValue(item_id,metadata_field_id);
 
 ------------------------------------
 -- Update Community to include CLOBs
 ------------------------------------
 
-CREATE TABLE CommunityTemp
+CREATE TABLE IF NOT EXISTS CommunityTemp
 (
   community_id      INTEGER PRIMARY KEY,
   name              VARCHAR2(128),
@@ -64,30 +64,26 @@ CREATE TABLE CommunityTemp
 INSERT INTO CommunityTemp
 SELECT * FROM Community;
 
-DROP TABLE Community CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Community CASCADE CONSTRAINTS;
 ALTER TABLE CommunityTemp RENAME TO Community;
 
-ALTER TABLE Community2Community ADD CONSTRAINT fk_c2c_parent
-FOREIGN KEY (parent_comm_id)
+ALTER TABLE Community2Community DROP CONSTRAINT IF EXISTS fk_c2c_parent; ALTER TABLE Community2Community ADD CONSTRAINT fk_c2c_parent FOREIGN KEY (parent_comm_id)
 REFERENCES Community (community_id);
 
-ALTER TABLE Community2Community ADD CONSTRAINT fk_c2c_child
-FOREIGN KEY (child_comm_id)
+ALTER TABLE Community2Community DROP CONSTRAINT IF EXISTS fk_c2c_child; ALTER TABLE Community2Community ADD CONSTRAINT fk_c2c_child FOREIGN KEY (child_comm_id)
 REFERENCES Community (community_id);
 
-ALTER TABLE Community2Collection ADD CONSTRAINT fk_c2c_community
-FOREIGN KEY (community_id)
+ALTER TABLE Community2Collection DROP CONSTRAINT IF EXISTS fk_c2c_community; ALTER TABLE Community2Collection ADD CONSTRAINT fk_c2c_community FOREIGN KEY (community_id)
 REFERENCES Community (community_id);
 
-ALTER TABLE Communities2Item ADD CONSTRAINT fk_c2i_community
-FOREIGN KEY (community_id)
+ALTER TABLE Communities2Item DROP CONSTRAINT IF EXISTS fk_c2i_community; ALTER TABLE Communities2Item ADD CONSTRAINT fk_c2i_community FOREIGN KEY (community_id)
 REFERENCES Community (community_id);
 
 -------------------------------------
 -- Update Collection to include CLOBs
 -------------------------------------
 
-CREATE TABLE CollectionTemp
+CREATE TABLE IF NOT EXISTS CollectionTemp
 (
   collection_id     INTEGER PRIMARY KEY,
   name              VARCHAR2(128),
@@ -109,25 +105,20 @@ CREATE TABLE CollectionTemp
 INSERT INTO CollectionTemp
 SELECT * FROM Collection;
 
-DROP TABLE Collection CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Collection CASCADE CONSTRAINTS;
 ALTER TABLE CollectionTemp RENAME TO Collection;
 
-ALTER TABLE Community2Collection ADD CONSTRAINT fk_c2c_collection
-FOREIGN KEY (collection_id)
+ALTER TABLE Community2Collection DROP CONSTRAINT IF EXISTS fk_c2c_collection; ALTER TABLE Community2Collection ADD CONSTRAINT fk_c2c_collection FOREIGN KEY (collection_id)
 REFERENCES Collection (collection_id);
 
-ALTER TABLE Collection2Item ADD CONSTRAINT fk_c2i_collection
-FOREIGN KEY (collection_id)
+ALTER TABLE Collection2Item DROP CONSTRAINT IF EXISTS fk_c2i_collection; ALTER TABLE Collection2Item ADD CONSTRAINT fk_c2i_collection FOREIGN KEY (collection_id)
 REFERENCES Collection (collection_id);
 
-ALTER TABLE WorkspaceItem ADD CONSTRAINT fk_wsi_collection
-FOREIGN KEY (collection_id)
+ALTER TABLE WorkspaceItem DROP CONSTRAINT IF EXISTS fk_wsi_collection; ALTER TABLE WorkspaceItem ADD CONSTRAINT fk_wsi_collection FOREIGN KEY (collection_id)
 REFERENCES Collection (collection_id);
 
-ALTER TABLE WorkflowItem ADD CONSTRAINT fk_wfi_collection
-FOREIGN KEY (collection_id)
+ALTER TABLE WorkflowItem DROP CONSTRAINT IF EXISTS fk_wfi_collection; ALTER TABLE WorkflowItem ADD CONSTRAINT fk_wfi_collection FOREIGN KEY (collection_id)
 REFERENCES Collection (collection_id);
 
-ALTER TABLE Subscription ADD CONSTRAINT fk_subs_collection
-FOREIGN KEY (collection_id)
+ALTER TABLE Subscription DROP CONSTRAINT IF EXISTS fk_subs_collection; ALTER TABLE Subscription ADD CONSTRAINT fk_subs_collection FOREIGN KEY (collection_id)
 REFERENCES Collection (collection_id);

@@ -6,12 +6,12 @@
 -- http://www.dspace.org/license/
 --
 
-CREATE SEQUENCE deduplication_id_seq;
+CREATE SEQUENCE IF NOT EXISTS deduplication_id_seq;
 
 -----------------------------------------------------------------------------------
 -- Create deduplication table
 -----------------------------------------------------------------------------------
-CREATE TABLE deduplication (
+CREATE TABLE IF NOT EXISTS deduplication (
     deduplication_id INTEGER PRIMARY KEY,
     fake BOOLEAN,
     tofix BOOLEAN,

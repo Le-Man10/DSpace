@@ -10,4 +10,4 @@
 UPDATE process SET user_id = null WHERE NOT EXISTS (SELECT * FROM EPerson where uuid = process.user_id);
 
 -- Add new constraint where process.user_id is nullified if referenced EPerson is deleted.
-ALTER TABLE process ADD CONSTRAINT process_eperson FOREIGN KEY (user_id) REFERENCES EPerson(uuid) ON DELETE SET NULL;
+ALTER TABLE process DROP CONSTRAINT IF EXISTS process_eperson; ALTER TABLE process ADD CONSTRAINT process_eperson FOREIGN KEY (user_id) REFERENCES EPerson(uuid) ON DELETE SET NULL;

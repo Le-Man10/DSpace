@@ -12,4 +12,4 @@
 ----------------------------------------------------------------------------------
 -- Create a new sequence for 'handle_id' column.
 -- The role of this sequence is to simply provide a unique internal ID to the database.
-CREATE SEQUENCE handle_id_seq;
+CREATE SEQUENCE IF NOT EXISTS handle_id_seq;

@@ -7,12 +7,12 @@
 --
 
 -----------------------------------------------------------------------------------
--- Create table for ORCID access tokens
+-- Create table IF NOT EXISTS for ORCID access tokens
 -----------------------------------------------------------------------------------
 
-CREATE SEQUENCE orcid_token_id_seq;
+CREATE SEQUENCE IF NOT EXISTS orcid_token_id_seq;
 
-CREATE TABLE orcid_token
+CREATE TABLE IF NOT EXISTS orcid_token
 (
     id INTEGER NOT NULL,
     eperson_id UUID NOT NULL UNIQUE,

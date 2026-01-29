@@ -22,7 +22,7 @@
 ------------------------------------------------------
 alter table metadatavalue rename item_id to resource_id;
 alter table metadatavalue alter column resource_id set not null;
-alter table metadatavalue add column resource_type_id integer;
+alter table metadatavalue add column IF NOT EXISTS resource_type_id integer;
 UPDATE metadatavalue SET resource_type_id = 2;
 alter table metadatavalue alter column resource_type_id set not null;
 
@@ -81,7 +81,7 @@ null AS text_lang,
 0 AS place
 FROM community where not name is null;
 
-alter table community drop column introductory_text, drop column short_description, drop column side_bar_text, drop column copyright_text, drop column name;
+alter table community drop column IF EXISTS introductory_text, drop column short_description, drop column side_bar_text, drop column copyright_text, drop column name;
 
 
 -- ----------
@@ -160,7 +160,7 @@ null AS text_lang,
 0 AS place
 FROM collection where not license is null;
 
-alter table collection drop column introductory_text, drop column short_description, drop column copyright_text, drop column side_bar_text, drop column name, drop column license, drop column provenance_description;
+alter table collection drop column IF EXISTS introductory_text, drop column short_description, drop column copyright_text, drop column side_bar_text, drop column name, drop column license, drop column provenance_description;
 
 
 -- ---------
@@ -177,7 +177,7 @@ null AS text_lang,
 0 AS place
 FROM bundle where not name is null;
 
-alter table bundle drop column name;
+alter table bundle drop column IF EXISTS name;
 
 
 
@@ -226,7 +226,7 @@ null AS text_lang,
 0 AS place
 FROM bitstream where not source is null;
 
-alter table bitstream drop column name, drop column description, drop column user_format_description, drop column source;
+alter table bitstream drop column IF EXISTS name, drop column description, drop column user_format_description, drop column source;
 
 
 -- ---------
@@ -243,7 +243,7 @@ null AS text_lang,
 0 AS place
 FROM epersongroup where not name is null;
 
-alter table epersongroup drop column name;
+alter table epersongroup drop column IF EXISTS name;
 
 
 
@@ -292,15 +292,15 @@ null AS text_lang,
 FROM eperson where not language is null;
 
 
-alter table eperson  drop column firstname, drop column lastname, drop column phone, drop column language;
+alter table eperson  drop column IF EXISTS firstname, drop column lastname, drop column phone, drop column language;
 
 -- ---------
 -- dcvalue view
 -- ---------
 
-drop view dcvalue;
+drop view IF EXISTS dcvalue;
 
-CREATE VIEW dcvalue AS
+CREATE VIEW IF NOT EXISTS dcvalue AS
   SELECT MetadataValue.metadata_value_id AS "dc_value_id", MetadataValue.resource_id,
     MetadataValue.metadata_field_id AS "dc_type_id", MetadataValue.text_value,
     MetadataValue.text_lang, MetadataValue.place

@@ -13,4 +13,4 @@
 
 DROP INDEX IF EXISTS metadatavalue_resource_type_id_idx;
 
-CREATE INDEX metadatavalue_resource_type_id_idx ON metadatavalue (resource_type_id);
+CREATE INDEX IF NOT EXISTS metadatavalue_resource_type_id_idx ON metadatavalue (resource_type_id);

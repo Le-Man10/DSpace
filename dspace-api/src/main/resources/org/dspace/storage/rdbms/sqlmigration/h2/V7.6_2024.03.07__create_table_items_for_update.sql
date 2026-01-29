@@ -7,12 +7,12 @@
 --
 
 -----------------------------------------------------------------------------------
--- Create TABLE itemupdate_metadata_enhancement
+-- Create TABLE IF NOT EXISTS itemupdate_metadata_enhancement
 -----------------------------------------------------------------------------------
 
-CREATE TABLE itemupdate_metadata_enhancement
+CREATE TABLE IF NOT EXISTS itemupdate_metadata_enhancement
 (
     uuid      UUID       NOT NULL  PRIMARY KEY,
     date_queued   TIMESTAMP  NOT NULL
 );
-CREATE INDEX idx_date_queued ON itemupdate_metadata_enhancement(date_queued);
+CREATE INDEX IF NOT EXISTS idx_date_queued ON itemupdate_metadata_enhancement(date_queued);

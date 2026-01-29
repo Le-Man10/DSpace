@@ -31,12 +31,12 @@ update item set discoverable=true;
 -- Item Level Versioning Tables
 -------------------------------------------
 
-CREATE TABLE versionhistory
+CREATE TABLE IF NOT EXISTS versionhistory
 (
   versionhistory_id INTEGER NOT NULL PRIMARY KEY
 );
 
-CREATE TABLE versionitem
+CREATE TABLE IF NOT EXISTS versionitem
 (
   versionitem_id INTEGER NOT NULL PRIMARY KEY,
   item_id INTEGER REFERENCES Item(item_id),
@@ -47,8 +47,8 @@ CREATE TABLE versionitem
   versionhistory_id INTEGER REFERENCES VersionHistory(versionhistory_id)
 );
 
-CREATE SEQUENCE versionitem_seq;
-CREATE SEQUENCE versionhistory_seq;
+CREATE SEQUENCE IF NOT EXISTS versionitem_seq;
+CREATE SEQUENCE IF NOT EXISTS versionhistory_seq;
 
 
 -------------------------------------------

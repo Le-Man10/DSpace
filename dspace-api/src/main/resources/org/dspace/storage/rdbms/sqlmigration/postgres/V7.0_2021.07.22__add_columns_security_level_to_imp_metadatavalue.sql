@@ -11,4 +11,4 @@
 -----------------------------------------------------------------------------------
 
 
-ALTER TABLE imp_metadatavalue ADD COLUMN security_level INTEGER
+ALTER TABLE imp_metadatavalue ADD COLUMN IF NOT EXISTS security_level INTEGER

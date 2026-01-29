@@ -10,9 +10,9 @@
 -- Create tables for Tabs/Boxes Configuration
 -----------------------------------------------------------------------------------
 
-CREATE SEQUENCE cris_layout_box_id_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_layout_box_id_seq;
 
-CREATE TABLE cris_layout_box
+CREATE TABLE IF NOT EXISTS cris_layout_box
 (
     id INTEGER NOT NULL,
     entity_id INTEGER NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE cris_layout_box
         REFERENCES entity_type (id)
 );
 
-CREATE TABLE cris_layout_box2securityfield
+CREATE TABLE IF NOT EXISTS cris_layout_box2securityfield
 (
     box_id INTEGER NOT NULL,
     authorized_field_id INTEGER NOT NULL,   
@@ -41,9 +41,9 @@ CREATE TABLE cris_layout_box2securityfield
         REFERENCES metadatafieldregistry (metadata_field_id)
 );
 
-CREATE SEQUENCE cris_layout_field_field_id_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_layout_field_field_id_seq;
 
-CREATE TABLE cris_layout_field
+CREATE TABLE IF NOT EXISTS cris_layout_field
 (
     field_id INTEGER NOT NULL,
     metadata_field_id INTEGER NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE cris_layout_field
         REFERENCES metadatafieldregistry (metadata_field_id)
 );
 
-CREATE TABLE cris_layout_box2field
+CREATE TABLE IF NOT EXISTS cris_layout_box2field
 (
     cris_layout_box_id INTEGER NOT NULL,
     cris_layout_field_id INTEGER NOT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE cris_layout_box2field
         REFERENCES cris_layout_box (id)
 );
 
-CREATE SEQUENCE cris_layout_fieldbitstream2metadata_fieldbitstream_id_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_layout_fieldbitstream2metadata_fieldbitstream_id_seq;
 
-CREATE TABLE cris_layout_fieldbitstream2metadata 
+CREATE TABLE IF NOT EXISTS cris_layout_fieldbitstream2metadata 
 (
     fieldbitstream_id INTEGER NOT NULL,
     layout_field_id INTEGER NOT NULL,
@@ -85,9 +85,9 @@ CREATE TABLE cris_layout_fieldbitstream2metadata
         REFERENCES metadatafieldregistry (metadata_field_id)
 );
 
-CREATE SEQUENCE cris_layout_tab_id_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_layout_tab_id_seq;
 
-CREATE TABLE cris_layout_tab
+CREATE TABLE IF NOT EXISTS cris_layout_tab
 (
     id INTEGER NOT NULL,
     entity_id INTEGER NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE cris_layout_tab
         REFERENCES entity_type (id)
 );
 
-CREATE TABLE cris_layout_tab2box
+CREATE TABLE IF NOT EXISTS cris_layout_tab2box
 (
     cris_layout_tab_id INTEGER NOT NULL,
     cris_layout_box_id INTEGER NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE cris_layout_tab2box
         REFERENCES cris_layout_box (id)
 );
 
-CREATE TABLE cris_layout_tab2securityfield
+CREATE TABLE IF NOT EXISTS cris_layout_tab2securityfield
 (
     tab_id INTEGER NOT NULL,
     authorized_field_id INTEGER NOT NULL,   

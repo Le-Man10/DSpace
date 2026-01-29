@@ -17,7 +17,7 @@
 -- Sequences for Process within Group feature
 -------------------------------------------------------------------------------
 
-CREATE TABLE Process2Group
+CREATE TABLE IF NOT EXISTS Process2Group
 (
   process_id INTEGER REFERENCES Process(process_id),
   group_id UUID REFERENCES epersongroup (uuid) ON DELETE CASCADE
@@ -26,4 +26,4 @@ CREATE TABLE Process2Group
 -- Drop the 'history_seq' sequence (related table deleted at Dspace-1.5)
 -----------------------------------------------------------------------------------
 
-DROP SEQUENCE history_seq;
+DROP SEQUENCE IF EXISTS history_seq;

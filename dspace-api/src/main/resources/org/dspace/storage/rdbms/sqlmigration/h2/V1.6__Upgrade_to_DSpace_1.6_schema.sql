@@ -17,15 +17,15 @@
 ------------------------------------------------------------------
 -- New Column for Community Admin - Delegated Admin patch (DS-228)
 ------------------------------------------------------------------
-ALTER TABLE community ADD COLUMN admin INTEGER;
-ALTER TABLE community ADD CONSTRAINT community_admin_fk FOREIGN KEY (admin) REFERENCES epersongroup ( eperson_group_id );
-CREATE INDEX community_admin_fk_idx ON Community(admin);
+ALTER TABLE community ADD COLUMN IF NOT EXISTS admin INTEGER;
+ALTER TABLE community DROP CONSTRAINT IF EXISTS community_admin_fk; ALTER TABLE community ADD CONSTRAINT community_admin_fk FOREIGN KEY (admin) REFERENCES epersongroup ( eperson_group_id );
+CREATE INDEX IF NOT EXISTS community_admin_fk_idx ON Community(admin);
 
 -------------------------------------------------------------------------
 -- DS-236 schema changes for Authority Control of Metadata Values
 -------------------------------------------------------------------------
-ALTER TABLE MetadataValue ADD COLUMN authority VARCHAR(100);
-ALTER TABLE MetadataValue ADD COLUMN confidence INTEGER DEFAULT -1;
+ALTER TABLE MetadataValue ADD COLUMN IF NOT EXISTS authority VARCHAR(100);
+ALTER TABLE MetadataValue ADD COLUMN IF NOT EXISTS confidence INTEGER DEFAULT -1;
 
 --------------------------------------------------------------------------
 -- DS-295 CC License being assigned incorrect Mime Type during submission.
@@ -47,16 +47,16 @@ UPDATE item SET owning_collection = null WHERE item_id IN
 
 -- Recreate restraints with a know name and deferrable option!
 -- (The previous version of these constraints is dropped by org.dspace.storage.rdbms.migration.V1_5_9__Drop_constraint_for_DSpace_1_6_schema)
-ALTER TABLE community2collection ADD CONSTRAINT comm2coll_collection_fk FOREIGN KEY (collection_id) REFERENCES collection DEFERRABLE;
-ALTER TABLE community2community ADD CONSTRAINT com2com_child_fk FOREIGN KEY (child_comm_id) REFERENCES community DEFERRABLE;
-ALTER TABLE collection2item ADD CONSTRAINT coll2item_item_fk FOREIGN KEY (item_id) REFERENCES item DEFERRABLE;
+ALTER TABLE community2collection DROP CONSTRAINT IF EXISTS comm2coll_collection_fk; ALTER TABLE community2collection ADD CONSTRAINT comm2coll_collection_fk FOREIGN KEY (collection_id) REFERENCES collection DEFERRABLE;
+ALTER TABLE community2community DROP CONSTRAINT IF EXISTS com2com_child_fk; ALTER TABLE community2community ADD CONSTRAINT com2com_child_fk FOREIGN KEY (child_comm_id) REFERENCES community DEFERRABLE;
+ALTER TABLE collection2item DROP CONSTRAINT IF EXISTS coll2item_item_fk; ALTER TABLE collection2item ADD CONSTRAINT coll2item_item_fk FOREIGN KEY (item_id) REFERENCES item DEFERRABLE;
 
 
 ------------------------------------------------------------------
 -- New tables /sequences for the harvester functionality (DS-289)
 ------------------------------------------------------------------
-CREATE SEQUENCE harvested_collection_seq;
-CREATE SEQUENCE harvested_item_seq;
+CREATE SEQUENCE IF NOT EXISTS harvested_collection_seq;
+CREATE SEQUENCE IF NOT EXISTS harvested_item_seq;
 
 -------------------------------------------------------
 -- Create the harvest settings table
@@ -64,7 +64,7 @@ CREATE SEQUENCE harvested_item_seq;
 -- Values used by the OAIHarvester to harvest a collection
 -- HarvestInstance is the DAO class for this table
 
-CREATE TABLE harvested_collection
+CREATE TABLE IF NOT EXISTS harvested_collection
 (
     collection_id INTEGER REFERENCES collection(collection_id) ON DELETE CASCADE,
     harvest_type INTEGER,
@@ -78,10 +78,10 @@ CREATE TABLE harvested_collection
     id INTEGER PRIMARY KEY
 );
 
-CREATE INDEX harvested_collection_fk_idx ON harvested_collection(collection_id);
+CREATE INDEX IF NOT EXISTS harvested_collection_fk_idx ON harvested_collection(collection_id);
 
 
-CREATE TABLE harvested_item
+CREATE TABLE IF NOT EXISTS harvested_item
 (
     item_id INTEGER REFERENCES item(item_id) ON DELETE CASCADE,
     last_harvested TIMESTAMP,
@@ -89,5 +89,5 @@ CREATE TABLE harvested_item
     id INTEGER PRIMARY KEY
 );
 
-CREATE INDEX harvested_item_fk_idx ON harvested_item(item_id);
+CREATE INDEX IF NOT EXISTS harvested_item_fk_idx ON harvested_item(item_id);
 

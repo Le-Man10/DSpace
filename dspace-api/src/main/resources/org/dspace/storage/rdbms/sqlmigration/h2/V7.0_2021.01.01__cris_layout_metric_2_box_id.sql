@@ -7,8 +7,8 @@
 --
 
 -----------------------------------------------------------------------------------
-CREATE SEQUENCE cris_layout_metric2box_id_seq;
+CREATE SEQUENCE IF NOT EXISTS cris_layout_metric2box_id_seq;
 DELETE FROM cris_layout_metric2box;
-ALTER TABLE cris_layout_metric2box DROP CONSTRAINT cris_layout_metric2box_pkey;
-ALTER TABLE cris_layout_metric2box ADD COLUMN id integer NOT NULL;
-ALTER TABLE cris_layout_metric2box ADD CONSTRAINT cris_layout_metric2box_pkey PRIMARY KEY (id);
+ALTER TABLE cris_layout_metric2box DROP CONSTRAINT IF EXISTS cris_layout_metric2box_pkey;
+ALTER TABLE cris_layout_metric2box ADD COLUMN IF NOT EXISTS id integer NOT NULL;
+ALTER TABLE cris_layout_metric2box DROP CONSTRAINT IF EXISTS cris_layout_metric2box_pkey; ALTER TABLE cris_layout_metric2box ADD CONSTRAINT cris_layout_metric2box_pkey PRIMARY KEY (id);

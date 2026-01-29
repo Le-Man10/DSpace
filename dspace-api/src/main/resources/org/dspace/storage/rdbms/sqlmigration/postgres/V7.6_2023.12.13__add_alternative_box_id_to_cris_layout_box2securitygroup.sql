@@ -10,5 +10,5 @@
 -- Alter TABLE cris_layout_box2securitygroup ADD alternative_box_id
 -----------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_box2securitygroup ADD COLUMN alternative_box_id INTEGER;
-ALTER TABLE cris_layout_box2securitygroup ADD CONSTRAINT cris_layout_box2securitygroup_box_id2 FOREIGN KEY (alternative_box_id) REFERENCES cris_layout_box (id) ON DELETE SET NULL;
+ALTER TABLE cris_layout_box2securitygroup ADD COLUMN IF NOT EXISTS alternative_box_id INTEGER;
+ALTER TABLE cris_layout_box2securitygroup DROP CONSTRAINT IF EXISTS cris_layout_box2securitygroup_box_id2; ALTER TABLE cris_layout_box2securitygroup ADD CONSTRAINT cris_layout_box2securitygroup_box_id2 FOREIGN KEY (alternative_box_id) REFERENCES cris_layout_box (id) ON DELETE SET NULL;

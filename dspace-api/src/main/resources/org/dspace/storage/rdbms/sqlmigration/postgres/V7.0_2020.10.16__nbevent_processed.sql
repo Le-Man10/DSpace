@@ -6,7 +6,7 @@
 -- http://www.dspace.org/license/
 --
 
-CREATE TABLE nbevent_processed (
+CREATE TABLE IF NOT EXISTS nbevent_processed (
   nbevent_id VARCHAR(255) NOT NULL,
   nbevent_timestamp TIMESTAMP NULL,
   eperson_uuid UUID NULL,
@@ -16,4 +16,4 @@ CREATE TABLE nbevent_processed (
   CONSTRAINT item_uuid_fkey FOREIGN KEY (item_uuid) REFERENCES item (uuid)
 );
 
-CREATE INDEX item_uuid_idx ON nbevent_processed(item_uuid);
+CREATE INDEX IF NOT EXISTS item_uuid_idx ON nbevent_processed(item_uuid);

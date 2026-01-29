@@ -9,7 +9,7 @@
 -----------------------------------------------------------------------------------
 -- Create QA Event Processed table.
 -----------------------------------------------------------------------------------
-CREATE TABLE qaevent_processed (
+CREATE TABLE IF NOT EXISTS qaevent_processed (
   qaevent_id VARCHAR(255) NOT NULL,
   qaevent_timestamp TIMESTAMP NULL,
   eperson_uuid UUID NULL,
@@ -20,4 +20,4 @@ CREATE TABLE qaevent_processed (
 );
 
 DROP INDEX IF EXISTS item_uuid_idx;
-CREATE INDEX item_uuid_idx ON qaevent_processed(item_uuid);
+CREATE INDEX IF NOT EXISTS item_uuid_idx ON qaevent_processed(item_uuid);

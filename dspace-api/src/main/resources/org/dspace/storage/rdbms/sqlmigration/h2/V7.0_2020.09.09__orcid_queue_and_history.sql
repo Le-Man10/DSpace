@@ -10,9 +10,9 @@
 -- Create tables for ORCID Queue and History
 -----------------------------------------------------------------------------------
 
-CREATE SEQUENCE orcid_queue_id_seq;
+CREATE SEQUENCE IF NOT EXISTS orcid_queue_id_seq;
 
-CREATE TABLE orcid_queue
+CREATE TABLE IF NOT EXISTS orcid_queue
 (
     id INTEGER NOT NULL,
     owner_id UUID NOT NULL,
@@ -22,12 +22,12 @@ CREATE TABLE orcid_queue
     CONSTRAINT orcid_queue_entity_id_fkey FOREIGN KEY (entity_id) REFERENCES item (uuid)
 );
 
-CREATE INDEX orcid_queue_owner_id_index on orcid_queue(owner_id);
+CREATE INDEX IF NOT EXISTS orcid_queue_owner_id_index on orcid_queue(owner_id);
 
 
-CREATE SEQUENCE orcid_history_id_seq;
+CREATE SEQUENCE IF NOT EXISTS orcid_history_id_seq;
 
-CREATE TABLE orcid_history
+CREATE TABLE IF NOT EXISTS orcid_history
 (
     id INTEGER NOT NULL,
     owner_id UUID NOT NULL,
@@ -41,4 +41,4 @@ CREATE TABLE orcid_history
     CONSTRAINT orcid_history_entity_id_fkey FOREIGN KEY (entity_id) REFERENCES item (uuid)
 );
 
-CREATE INDEX orcid_history_owner_id_index on orcid_history(owner_id);
+CREATE INDEX IF NOT EXISTS orcid_history_owner_id_index on orcid_history(owner_id);

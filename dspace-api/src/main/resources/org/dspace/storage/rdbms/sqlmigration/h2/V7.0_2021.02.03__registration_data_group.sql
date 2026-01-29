@@ -10,7 +10,7 @@
 -- Sequences for RegistrationData within Group feature
 -------------------------------------------------------------------------------
 
-CREATE TABLE RegistrationData2Group
+CREATE TABLE IF NOT EXISTS RegistrationData2Group
 (
   registrationdata_id INTEGER REFERENCES RegistrationData(registrationdata_id),
   group_id UUID REFERENCES epersongroup (uuid) ON DELETE CASCADE

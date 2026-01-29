@@ -6,4 +6,4 @@
 -- http://www.dspace.org/license/
 --
 
-ALTER TABLE orcid_history ADD COLUMN status INTEGER;
+ALTER TABLE orcid_history ADD COLUMN IF NOT EXISTS status INTEGER;

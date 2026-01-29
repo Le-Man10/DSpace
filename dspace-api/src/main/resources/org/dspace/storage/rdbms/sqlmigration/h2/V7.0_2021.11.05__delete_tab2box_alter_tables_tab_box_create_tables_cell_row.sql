@@ -7,11 +7,11 @@
 --
 
 -------------------------------------------------------------------------------------
----- CREATE table cris_layout_row
+---- CREATE table IF NOT EXISTS cris_layout_row
 -------------------------------------------------------------------------------------
 
-CREATE SEQUENCE cris_layout_row_id_seq;
-CREATE TABLE  cris_layout_row
+CREATE SEQUENCE IF NOT EXISTS cris_layout_row_id_seq;
+CREATE TABLE IF NOT EXISTS cris_layout_row
 (
   id         INTEGER NOT NULL,
   style      CHARACTER VARYING(255),
@@ -23,11 +23,11 @@ CREATE TABLE  cris_layout_row
 );
 
 -------------------------------------------------------------------------------------
----- CREATE table cris_layout_cell
+---- CREATE table IF NOT EXISTS cris_layout_cell
 -------------------------------------------------------------------------------------
 
-CREATE SEQUENCE cris_layout_cell_id_seq;
-CREATE TABLE  cris_layout_cell
+CREATE SEQUENCE IF NOT EXISTS cris_layout_cell_id_seq;
+CREATE TABLE IF NOT EXISTS cris_layout_cell
 (
   id         INTEGER NOT NULL,
   style      CHARACTER VARYING(255),
@@ -39,36 +39,36 @@ CREATE TABLE  cris_layout_cell
 );
 
 -------------------------------------------------------------------------------------
----- CREATE table cris_layout_tab2box
+---- CREATE table IF NOT EXISTS cris_layout_tab2box
 -------------------------------------------------------------------------------------
-DROP TABLE cris_layout_tab2box;
+DROP TABLE IF EXISTS cris_layout_tab2box;
 
 -------------------------------------------------------------------------------------
 ---- ALTER table cris_layout_box
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_box DROP COLUMN clear;
-ALTER TABLE cris_layout_box ADD COLUMN cell INTEGER;
-ALTER TABLE cris_layout_box ADD COLUMN position INTEGER;
-ALTER TABLE cris_layout_box ADD COLUMN container BOOLEAN;
-ALTER TABLE cris_layout_box ADD CONSTRAINT cris_layout_cell_id_fk FOREIGN KEY (cell) REFERENCES cris_layout_cell;
+ALTER TABLE cris_layout_box DROP COLUMN IF EXISTS clear;
+ALTER TABLE cris_layout_box ADD COLUMN IF NOT EXISTS cell INTEGER;
+ALTER TABLE cris_layout_box ADD COLUMN IF NOT EXISTS position INTEGER;
+ALTER TABLE cris_layout_box ADD COLUMN IF NOT EXISTS container BOOLEAN;
+ALTER TABLE cris_layout_box DROP CONSTRAINT IF EXISTS cris_layout_cell_id_fk; ALTER TABLE cris_layout_box ADD CONSTRAINT cris_layout_cell_id_fk FOREIGN KEY (cell) REFERENCES cris_layout_cell;
 
 -------------------------------------------------------------------------------------
 ---- ALTER table cris_layout_tab
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_tab ADD COLUMN is_leading BOOLEAN;
+ALTER TABLE cris_layout_tab ADD COLUMN IF NOT EXISTS is_leading BOOLEAN;
 
 -------------------------------------------------------------------------------------
 ---- ALTER table cris_layout_field
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_field ADD COLUMN label_as_heading BOOLEAN;
-ALTER TABLE cris_layout_field ADD COLUMN values_inline BOOLEAN;
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS label_as_heading BOOLEAN;
+ALTER TABLE cris_layout_field ADD COLUMN IF NOT EXISTS values_inline BOOLEAN;
 
 -------------------------------------------------------------------------------------
 ---- ALTER table cris_layout_field2nested
 -------------------------------------------------------------------------------------
 
-ALTER TABLE cris_layout_field2nested ADD COLUMN label_as_heading BOOLEAN;
-ALTER TABLE cris_layout_field2nested ADD COLUMN values_inline BOOLEAN;
+ALTER TABLE cris_layout_field2nested ADD COLUMN IF NOT EXISTS label_as_heading BOOLEAN;
+ALTER TABLE cris_layout_field2nested ADD COLUMN IF NOT EXISTS values_inline BOOLEAN;

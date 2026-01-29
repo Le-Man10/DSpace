@@ -12,5 +12,5 @@
 
 -- we cannot create the idx related to the text_value substring in H2 as index on
 -- expression are not supported, see https://github.com/h2database/h2database/issues/3535
--- CREATE INDEX idx_text_value_hash ON metadatavalue (SUBSTRING(text_value,1,36));
-CREATE INDEX idx_authority_hash ON metadatavalue (authority);
+-- CREATE INDEX IF NOT EXISTS idx_text_value_hash ON metadatavalue (SUBSTRING(text_value,1,36));
+CREATE INDEX IF NOT EXISTS idx_authority_hash ON metadatavalue (authority);

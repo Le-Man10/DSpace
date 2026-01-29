@@ -10,7 +10,7 @@
 -- Metric 2 Box Table
 -----------------------------------------------------------------------------------
 
-CREATE TABLE cris_layout_metric2box
+CREATE TABLE IF NOT EXISTS cris_layout_metric2box
 (
     metric_type CHARACTER VARYING(255) NOT NULL,
     cris_layout_box_id INTEGER NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE cris_layout_metric2box
         REFERENCES cris_layout_box (id)
 );
 
-ALTER TABLE cris_layout_box ADD COLUMN max_columns INTEGER;
+ALTER TABLE cris_layout_box ADD COLUMN IF NOT EXISTS max_columns INTEGER;
 
